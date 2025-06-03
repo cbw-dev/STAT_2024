@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Load libraries. —- | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Load libraries. —- | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="cbw-dev/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Load libraries. —- | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="module-2-dealing-with-missingness.html"/>
+<link rel="next" href="module-3-modeling-part-1.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="meet-your-faculty.html"><a href="meet-your-faculty.html"><i class="fa fa-check"></i>Meet Your Faculty</a></li>
+<li class="chapter" data-level="" data-path="data-and-compute-setup.html"><a href="data-and-compute-setup.html"><i class="fa fa-check"></i>Data and Compute Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries.--"><i class="fa fa-check"></i>Load libraries. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data.--"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data.--"><i class="fa fa-check"></i>Looking at your data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots.--"><i class="fa fa-check"></i>Exploratory plots. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection.--"><i class="fa fa-check"></i>Outlier detection. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction.--"><i class="fa fa-check"></i>Dimensionality reduction. —-</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html"><i class="fa fa-check"></i>Load libraries. —-</a>
+<ul>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#read-in-data.---1"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#missing-data-exploration.--"><i class="fa fa-check"></i>Missing data exploration. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#imputation-prep.--"><i class="fa fa-check"></i>Imputation prep. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#missingness-simulation.--"><i class="fa fa-check"></i>Missingness simulation. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#meanmode-imputation.--"><i class="fa fa-check"></i>Mean/mode imputation. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#k-nearest-neighbour-imputation--"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#random-forest-imputation--"><i class="fa fa-check"></i>Random forest imputation —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#mice.--"><i class="fa fa-check"></i>MICE. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#error-rates.--"><i class="fa fa-check"></i>Error rates. —-</a></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html#impute-the-full-dataset.--"><i class="fa fa-check"></i>Impute the full dataset. —-</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Canadian Centre for Computational Genomics logo.">
+<br><br>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="load-libraries.---1" class="section level1 hasAnchor">
+<h1>Load libraries. —-<a href="load-libraries.---1.html#load-libraries.---1" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>library(tidyverse)
+library(mice)
+library(missForest)
+library(VIM)
+library(simputation)
+library(naniar)</p>
+<div id="read-in-data.---1" class="section level2 hasAnchor">
+<h2>Read in data. —-<a href="load-libraries.---1.html#read-in-data.---1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="read-in-trait-dataset-we-cleaned-in-the-last-module." class="section level5 hasAnchor">
+<h5>Read in trait dataset we cleaned in the last module.<a href="load-libraries.---1.html#read-in-trait-dataset-we-cleaned-in-the-last-module." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfTraits &lt;- read.csv(file = “dfTraits.csv”)</p>
+</div>
+<div id="identify-the-taxonomy-columns." class="section level5 hasAnchor">
+<h5>Identify the taxonomy columns.<a href="load-libraries.---1.html#identify-the-taxonomy-columns." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>taxCols &lt;- c(“family”, “genus”, “species”)
+##### Identify the traits.
+traits &lt;- setdiff(names(dfTraits), taxCols)
+##### Identify the numerical traits.
+contTraits &lt;- traits[sapply(dfTraits[traits], is.numeric)]
+##### Identify the categorical traits.
+catTraits &lt;- setdiff(traits, contTraits)</p>
+</div>
+</div>
+<div id="missing-data-exploration.--" class="section level2 hasAnchor">
+<h2>Missing data exploration. —-<a href="load-libraries.---1.html#missing-data-exploration.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="lets-make-a-dataframe-for-plotting." class="section level5 hasAnchor">
+<h5>Let’s make a dataframe for plotting.<a href="load-libraries.---1.html#lets-make-a-dataframe-for-plotting." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfMissing &lt;- dfTraits[traits] %&gt;%
+# Get number of NAs in each trait.
+# across() allows us to apply our function across multiple columns, everything() selects all columns and ~ sum(is.na(.)) is our anonymous function
+summarise(across(everything(), ~ sum(is.na(.)))) %&gt;%
+# Pivot longer for plotting. pivot_longer and pivot_wider are useful functions for getting your data into a format for plotting. It also help with tidying messy data.
+# Here, we are selecting all of the columns and flipping it longways so that trait name is one column and the number of NAs is the other columns.
+pivot_longer(cols = everything(), names_to = “trait”, values_to = “num_NAs”) %&gt;%
+# Finally, add a column for percentage of missing values.
+mutate(pct_missing = (num_NAs/nrow(dfTraits)) * 100)</p>
+</div>
+<div id="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe" class="section level5 hasAnchor">
+<h5>Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!<a href="load-libraries.---1.html#note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>View(dfMissing)</p>
+</div>
+<div id="ggplot-for-missingness-visualization" class="section level5 hasAnchor">
+<h5>ggplot for missingness visualization<a href="load-libraries.---1.html#ggplot-for-missingness-visualization" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ggplot(dfMissing) +
+# Barplot ordered by missingness
+# reorder function from R documentation: “The”default” method treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable, usually numeric.”
+geom_bar(aes(x = reorder(trait, desc(pct_missing)), y = pct_missing),
+stat = ‘identity’, fill = “seagreen”, width = 0.7) +
+coord_flip() +
+labs(title = “Percentage of Missing Values by Trait”, x = ‘Trait’, y = “% of Missing Values”) +
+theme_minimal(base_size = 12)</p>
+</div>
+<div id="using-the-package-naniar-to-visualize-missing-data." class="section level5 hasAnchor">
+<h5>Using the package “naniar” to visualize missing data.<a href="load-libraries.---1.html#using-the-package-naniar-to-visualize-missing-data." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>naniar::vis_miss(dfTraits[traits])</p>
+</div>
+<div id="clustering-by-missingness-may-help-you-see-patterns" class="section level5 hasAnchor">
+<h5>Clustering by missingness may help you see patterns<a href="load-libraries.---1.html#clustering-by-missingness-may-help-you-see-patterns" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>naniar::vis_miss(dfTraits[traits], cluster = T, sort_miss = T)</p>
+</div>
+<div id="upset-plots-to-identify-missingness-combinations." class="section level5 hasAnchor">
+<h5>Upset plots to identify missingness combinations.<a href="load-libraries.---1.html#upset-plots-to-identify-missingness-combinations." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>naniar::gg_miss_upset(dfTraits[traits])</p>
+</div>
+<div id="heres-the-kicker-how-many-species-do-we-lose-if-we-use-complete-case-observations" class="section level5 hasAnchor">
+<h5>Here’s the kicker! How many species do we lose if we use complete case observations?<a href="load-libraries.---1.html#heres-the-kicker-how-many-species-do-we-lose-if-we-use-complete-case-observations" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfCompleteCase &lt;- na.omit(dfTraits)
+cat(“We lose”, nrow(dfTraits) - nrow(dfCompleteCase), “species!”)</p>
+</div>
+</div>
+<div id="imputation-prep.--" class="section level2 hasAnchor">
+<h2>Imputation prep. —-<a href="load-libraries.---1.html#imputation-prep.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="only-some-traits-are-amenable-to-imputation-and-we-need-to-do-some-more-preprocessing-before-we-impute-our-values." class="section level5 hasAnchor">
+<h5>Only some traits are amenable to imputation and we need to do some more preprocessing before we impute our values.<a href="load-libraries.---1.html#only-some-traits-are-amenable-to-imputation-and-we-need-to-do-some-more-preprocessing-before-we-impute-our-values." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>names(dfTraits)
+##### Set row names as species so we have a form of ID.
+rownames(dfTraits) &lt;- dfTraits$species</p>
+</div>
+<div id="imputing-traits-with-high-proportions-of-missingness-could-be-problematic.-based-on-our-visualizations-lets-set-a-threshold-of-60-missingness-as-our-cutoff." class="section level5 hasAnchor">
+<h5>Imputing traits with high proportions of missingness could be problematic. Based on our visualizations, let’s set a threshold of 60% missingness as our cutoff.<a href="load-libraries.---1.html#imputing-traits-with-high-proportions-of-missingness-could-be-problematic.-based-on-our-visualizations-lets-set-a-threshold-of-60-missingness-as-our-cutoff." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="note-this-is-an-arbitrary-threshold-i-am-using-right-now.-in-reality-this-is-something-you-could-perform-sensitivity-analyses-on.-there-is-no-right-answer-for-how-much-missingness-is-too-much.-its-a-combination-of-many-factors-e.g.-sample-size-strength-of-relationships-between-variables-missingness-mechanism-etc..-so-you-probably-dont-want-to-impute-a-variable-with-only-a-few-observations-and-90-missingness-for-example." class="section level5 hasAnchor">
+<h5>Note: this is an arbitrary threshold I am using right now. In reality, this is something you could perform sensitivity analyses on. There is no “right” answer for how much missingness is too much. It’s a combination of many factors (e.g., sample size, strength of relationships between variables, missingness mechanism, etc.). So you probably don’t want to impute a variable with only a few observations and 90% missingness, for example.<a href="load-libraries.---1.html#note-this-is-an-arbitrary-threshold-i-am-using-right-now.-in-reality-this-is-something-you-could-perform-sensitivity-analyses-on.-there-is-no-right-answer-for-how-much-missingness-is-too-much.-its-a-combination-of-many-factors-e.g.-sample-size-strength-of-relationships-between-variables-missingness-mechanism-etc..-so-you-probably-dont-want-to-impute-a-variable-with-only-a-few-observations-and-90-missingness-for-example." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfFiltered &lt;- dfTraits %&gt;%
+select(-c(all_of(taxCols), ## leave out taxonomy also for imputation purposes
+age_first_breeding, foraging_mode, hatchling_neonate_svl)) ## traits with most amount of missingness))</p>
+</div>
+<div id="update-our-trait-vectors." class="section level5 hasAnchor">
+<h5>Update our trait vectors.<a href="load-libraries.---1.html#update-our-trait-vectors." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>catTraits &lt;- catTraits[!catTraits %in% “foraging_mode”]
+contTraits &lt;- contTraits[!contTraits %in% c(“age_first_breeding”, “hatchling_neonate_svl”)]
+traits &lt;- c(catTraits, contTraits)</p>
+</div>
+<div id="visualize-the-missingness-of-our-subset.-this-also-gives-you-an-idea-of-which-combination-of-traits-would-give-you-the-largest-complete-case-dataset." class="section level5 hasAnchor">
+<h5>Visualize the missingness of our subset. This also gives you an idea of which combination of traits would give you the largest complete-case dataset.<a href="load-libraries.---1.html#visualize-the-missingness-of-our-subset.-this-also-gives-you-an-idea-of-which-combination-of-traits-would-give-you-the-largest-complete-case-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>naniar::vis_miss(dfFiltered, cluster = T, sort_miss = T)</p>
+</div>
+<div id="imputation-methods-can-be-sensitive-to-class-imbalance-issues-as-some-categories-may-be-over-or-underrepresented." class="section level5 hasAnchor">
+<h5>Imputation methods can be sensitive to class imbalance issues, as some categories may be over or underrepresented.<a href="load-libraries.---1.html#imputation-methods-can-be-sensitive-to-class-imbalance-issues-as-some-categories-may-be-over-or-underrepresented." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="lets-check-our-categorical-traits-for-severe-class-imbalances-or-lack-of-variation-or-just-for-categories-we-should-fix-in-general." class="section level5 hasAnchor">
+<h5>Let’s check our categorical traits for severe class imbalances or lack of variation or just for categories we should fix in general.<a href="load-libraries.---1.html#lets-check-our-categorical-traits-for-severe-class-imbalances-or-lack-of-variation-or-just-for-categories-we-should-fix-in-general." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>lapply(dfFiltered[catTraits], table)</p>
+</div>
+<div id="look-at-diet.-herbivorous-is-a-minor-category.-we-check-if-this-category-makes-up-more-than-10-of-the-observed-data." class="section level5 hasAnchor">
+<h5>Look at diet. “Herbivorous” is a minor category. We check if this category makes up more than 10% of the observed data.<a href="load-libraries.---1.html#look-at-diet.-herbivorous-is-a-minor-category.-we-check-if-this-category-makes-up-more-than-10-of-the-observed-data." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>sum(dfFiltered<span class="math inline">\(diet == &quot;Herbivorous&quot;, na.rm = T)/sum(dfFiltered\)</span>diet != “Herbivorous”, na.rm = T)
+##### Consider removing rare categories (those less than 10% of the data, for example). You could use a different threshold for your data if you had a large enough sample size.
+##### Let’s remove the rare categories:
+dfFiltered &lt;- dfFiltered %&gt;%
+filter(diet != “Herbivorous” | is.na(diet),
+activity_time != “Cathemeral” | is.na(activity_time),
+insular_endemic != “unknown” | is.na(insular_endemic),
+reproductive_mode == “Oviparous” | reproductive_mode == “Viviparous” | is.na(reproductive_mode),
+iucn_redlist_assessment == “LC” | iucn_redlist_assessment == “NE” | is.na(iucn_redlist_assessment)
+) ## need to specify that we are keeping NAs because filter will remove them!</p>
+</div>
+<div id="check-distributions-of-numerical-traits-once-more." class="section level5 hasAnchor">
+<h5>Check distributions of numerical traits once more.<a href="load-libraries.---1.html#check-distributions-of-numerical-traits-once-more." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>lapply(dfFiltered[contTraits], hist)</p>
+</div>
+<div id="finally-lets-ensure-we-have-the-correct-data-classes." class="section level5 hasAnchor">
+<h5>Finally, let’s ensure we have the correct data classes.<a href="load-libraries.---1.html#finally-lets-ensure-we-have-the-correct-data-classes." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfFiltered[contTraits] &lt;- lapply(dfFiltered[contTraits], as.numeric)
+##### Factor is the class required for imputation of categorical traits. It is also the data class required for categorical variables in many statistical analyses.
+dfFiltered[catTraits] &lt;- lapply(dfFiltered[catTraits], as.factor)</p>
+</div>
+</div>
+<div id="missingness-simulation.--" class="section level2 hasAnchor">
+<h2>Missingness simulation. —-<a href="load-libraries.---1.html#missingness-simulation.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-first-thing-we-are-going-to-do-is-make-a-complete-case-dataset." class="section level5 hasAnchor">
+<h5>The first thing we are going to do is make a complete-case dataset.<a href="load-libraries.---1.html#the-first-thing-we-are-going-to-do-is-make-a-complete-case-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfCompleteCase &lt;- na.omit(dfFiltered)</p>
+</div>
+<div id="we-are-going-to-log-transform-our-skewed-numerical-traits-to-make-the-distributions-approximately-normal.-this-can-help-with-certain-types-of-imputation-methods-but-isnt-always-necessary." class="section level5 hasAnchor">
+<h5>We are going to log-transform our skewed numerical traits to make the distributions approximately normal. This can help with certain types of imputation methods, but isn’t always necessary.<a href="load-libraries.---1.html#we-are-going-to-log-transform-our-skewed-numerical-traits-to-make-the-distributions-approximately-normal.-this-can-help-with-certain-types-of-imputation-methods-but-isnt-always-necessary." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfLog &lt;- dfCompleteCase ## making a copy of the complete-case dataframe
+dfLog[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(dfLog[c(“maximum_svl”, “largest_clutch”)], log)</p>
+</div>
+<div id="now-set-the-seed-so-you-can-reproduce-your-results.-this-is-very-important" class="section level5 hasAnchor">
+<h5>Now, set the seed so you can reproduce your results. This is VERY important!<a href="load-libraries.---1.html#now-set-the-seed-so-you-can-reproduce-your-results.-this-is-very-important" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>set.seed(123)
+##### To simulate missingness, let’s introduce some NAs into the dataset using the prodNA function. Any data introduced using this function is missing completely at random (MCAR). If you are interested in simulated MAR or MNAR data, check out the mice::ampute function.
+?prodNA
+##### noNA = the proportion of missingness we want to introduce
+dfMissing &lt;- prodNA(dfLog, noNA = 0.1)
+##### Let’s make sure it worked.
+sum(is.na(dfMissing))/prod(dim(dfMissing))</p>
+<p>View(dfMissing)</p>
+</div>
+</div>
+<div id="meanmode-imputation.--" class="section level2 hasAnchor">
+<h2>Mean/mode imputation. —-<a href="load-libraries.---1.html#meanmode-imputation.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="meanmode-is-the-simplest-imputation-method-and-it-is-pretty-easy-to-do.-its-a-good-baseline-to-compare-other-methods-to." class="section level5 hasAnchor">
+<h5>Mean/mode is the simplest imputation method and it is pretty easy to do. It’s a good baseline to compare other methods to.<a href="load-libraries.---1.html#meanmode-is-the-simplest-imputation-method-and-it-is-pretty-easy-to-do.-its-a-good-baseline-to-compare-other-methods-to." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="make-a-copy-of-dfmissing." class="section level5 hasAnchor">
+<h5>Make a copy of dfMissing.<a href="load-libraries.---1.html#make-a-copy-of-dfmissing." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfMeanModeImp &lt;- dfMissing</p>
+</div>
+<div id="impute-traits-with-mean-for-numerical-traits-and-mode-for-categorical-traits." class="section level5 hasAnchor">
+<h5>Impute traits with mean for numerical traits and mode for categorical traits.<a href="load-libraries.---1.html#impute-traits-with-mean-for-numerical-traits-and-mode-for-categorical-traits." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="mean-value" class="section level5 hasAnchor">
+<h5>Mean value<a href="load-libraries.---1.html#mean-value" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>mean(dfMeanModeImp$latitude, na.rm = T)</p>
+</div>
+<div id="mode-value" class="section level5 hasAnchor">
+<h5>Mode value<a href="load-libraries.---1.html#mode-value" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>table(dfMeanModeImp<span class="math inline">\(activity_time)
+which.max(table(dfMeanModeImp\)</span>activity_time))
+names(which.max(table(dfMeanModeImp$activity_time)))</p>
+</div>
+<div id="use-a-for-loop" class="section level5 hasAnchor">
+<h5>Use a for loop!:<a href="load-libraries.---1.html#use-a-for-loop" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>for(t in 1:length(traits)) {</p>
+<p># Take the name of the tth trait.
+trait &lt;- traits[[t]]</p>
+<p># Identify missing values in the trait.
+index &lt;- which(is.na(dfMeanModeImp[trait]))</p>
+<p># If trait is numeric..
+if(trait %in% contTraits){</p>
+<pre><code># Replace all NA values with the mean of the known observations for the variable.
+dfMeanModeImp[index, trait] &lt;- mean(dfMeanModeImp[[trait]], na.rm = T)</code></pre>
+<p>} else if(trait %in% catTraits){</p>
+<pre><code># Replace all NA values with the mode of the known observations for the variable.
+dfMeanModeImp[index, trait] &lt;- names(which.max(table(dfMeanModeImp[[trait]])))</code></pre>
+<p>}</p>
+<p>}</p>
+</div>
+<div id="back-transform-the-log-transformed-data-because-we-will-need-to-compare-it-to-the-original-data-to-get-our-error-rates." class="section level5 hasAnchor">
+<h5>Back-transform the log-transformed data because we will need to compare it to the original data to get our error rates.<a href="load-libraries.---1.html#back-transform-the-log-transformed-data-because-we-will-need-to-compare-it-to-the-original-data-to-get-our-error-rates." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfMeanModeImp[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(dfMeanModeImp[c(“maximum_svl”, “largest_clutch”)], exp)</p>
+</div>
+</div>
+<div id="k-nearest-neighbour-imputation--" class="section level2 hasAnchor">
+<h2>K-Nearest Neighbour Imputation —-<a href="load-libraries.---1.html#k-nearest-neighbour-imputation--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="lets-try-using-knn-k-nearest-neighbour-imputation.-using-a-distance-matrix-determines-k-neighbours-that-are-closest-to-the-observation-with-missing-values.-it-then-uses-the-information-from-the-nearest-neighbours-to-fill-in-the-missing-values." class="section level5 hasAnchor">
+<h5>Let’s try using KNN (K-Nearest Neighbour Imputation). Using a distance matrix, determines k neighbours that are closest to the observation with missing values. It then uses the information from the nearest neighbours to fill in the missing values.<a href="load-libraries.---1.html#lets-try-using-knn-k-nearest-neighbour-imputation.-using-a-distance-matrix-determines-k-neighbours-that-are-closest-to-the-observation-with-missing-values.-it-then-uses-the-information-from-the-nearest-neighbours-to-fill-in-the-missing-values." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>?kNN</p>
+</div>
+<div id="data-dataframe-with-missing-values-k-number-of-nearest-neighbours-used.-rule-of-thumb-for-k-is-to-take-the-square-root-of-n-sample-size.-this-might-be-a-parameter-you-want-to-tune-however." class="section level5 hasAnchor">
+<h5>data = dataframe with missing values, k = number of nearest neighbours used. Rule of thumb for k is to take the square root of n (sample size). This might be a parameter you want to tune, however.<a href="load-libraries.---1.html#data-dataframe-with-missing-values-k-number-of-nearest-neighbours-used.-rule-of-thumb-for-k-is-to-take-the-square-root-of-n-sample-size.-this-might-be-a-parameter-you-want-to-tune-however." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>neighbours &lt;- round(sqrt(nrow(dfMissing)))
+dfKNN &lt;- kNN(data = dfMissing, k = neighbours)</p>
+<p>View(dfKNN) ## This is nice because it lets you track your imputed values.</p>
+</div>
+<div id="subset-to-only-take-the-imputed-values-and-not-the-indicator-columns." class="section level5 hasAnchor">
+<h5>Subset to only take the imputed values and not the indicator columns.<a href="load-libraries.---1.html#subset-to-only-take-the-imputed-values-and-not-the-indicator-columns." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfKNN &lt;- dfKNN[, -grep(pattern = “_imp”, x = names(dfKNN))]
+##### Back-transform the log-transformed data.
+dfKNN[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(dfKNN[c(“maximum_svl”, “largest_clutch”)], exp)</p>
+</div>
+</div>
+<div id="random-forest-imputation--" class="section level2 hasAnchor">
+<h2>Random forest imputation —-<a href="load-libraries.---1.html#random-forest-imputation--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="builds-a-random-forest-model-using-the-observed-data-to-estimate-those-values-that-are-missing.-it-is-an-iterative-process-that-repeats-until-the-imputed-values-stabilize." class="section level5 hasAnchor">
+<h5>Builds a Random Forest model using the observed data to estimate those values that are missing. It is an iterative process that repeats until the imputed values stabilize.<a href="load-libraries.---1.html#builds-a-random-forest-model-using-the-observed-data-to-estimate-those-values-that-are-missing.-it-is-an-iterative-process-that-repeats-until-the-imputed-values-stabilize." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>?missForest</p>
+</div>
+<div id="xmix-dataframe-with-missing-values-maxiter-max-of-iterations-performed-ntree-number-of-trees-in-the-forest" class="section level5 hasAnchor">
+<h5>xmix = dataframe with missing values, maxiter = max # of iterations performed, ntree = number of trees in the forest<a href="load-libraries.---1.html#xmix-dataframe-with-missing-values-maxiter-max-of-iterations-performed-ntree-number-of-trees-in-the-forest" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>RFresult &lt;- missForest(xmis = dfMissing, maxiter = 10, ntree = 100)</p>
+</div>
+<div id="look-at-the-imputed-dataframe." class="section level5 hasAnchor">
+<h5>Look at the imputed dataframe.<a href="load-libraries.---1.html#look-at-the-imputed-dataframe." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>View(RFresult<span class="math inline">\(ximp)
+class(RFresult\)</span>ximp)</p>
+</div>
+<div id="assign-to-dataframe." class="section level5 hasAnchor">
+<h5>Assign to dataframe.<a href="load-libraries.---1.html#assign-to-dataframe." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfRF &lt;- RFresult$ximp</p>
+</div>
+<div id="again-back-transform-the-data." class="section level5 hasAnchor">
+<h5>Again, back-transform the data.<a href="load-libraries.---1.html#again-back-transform-the-data." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfRF[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(dfRF[c(“maximum_svl”, “largest_clutch”)], exp)</p>
+</div>
+</div>
+<div id="mice.--" class="section level2 hasAnchor">
+<h2>MICE. —-<a href="load-libraries.---1.html#mice.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="mice-is-a-framework-for-performing-multiple-imputation.-single-imputation-is-performed-several-times-so-it-can-provides-a-measure-of-uncertainty-for-your-imputed-values" class="section level5 hasAnchor">
+<h5>MICE is a framework for performing multiple imputation. Single imputation is performed several times, so it can provides a measure of uncertainty for your imputed values<a href="load-libraries.---1.html#mice-is-a-framework-for-performing-multiple-imputation.-single-imputation-is-performed-several-times-so-it-can-provides-a-measure-of-uncertainty-for-your-imputed-values" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>?mice</p>
+</div>
+<div id="default-methods-for-numeric-and-categorical-traits-are-predictive-mean-matching-and-logistic-regression-respectively.-but-you-can-try-different-methods-and-see-which-works-best-for-your-data." class="section level5 hasAnchor">
+<h5>Default methods for numeric and categorical traits are predictive mean matching and logistic regression, respectively. But you can try different methods and see which works best for your data.<a href="load-libraries.---1.html#default-methods-for-numeric-and-categorical-traits-are-predictive-mean-matching-and-logistic-regression-respectively.-but-you-can-try-different-methods-and-see-which-works-best-for-your-data." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>sapply(dfMissing, class)
+myMethods &lt;- c(“norm.predict”, “cart”, “pmm”, “logreg”, “logreg”, “cart”, “pmm”, “cart”)
+##### data = dataframe with missing values, m = number of multiple imputations.
+miceMids &lt;- mice(data = dfMissing, method = myMethods, m = 10)</p>
+</div>
+<div id="check-the-class." class="section level5 hasAnchor">
+<h5>Check the class.<a href="load-libraries.---1.html#check-the-class." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>class(miceMids)
+##### mids is a special object that contains multiple imputed datasets.
+?mids</p>
+</div>
+<div id="number-of-imputed-datasets" class="section level5 hasAnchor">
+<h5>Number of imputed datasets<a href="load-libraries.---1.html#number-of-imputed-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>miceMids$m</p>
+</div>
+<div id="what-variables-were-used-as-predictors-you-can-alter-this-matrix" class="section level5 hasAnchor">
+<h5>What variables were used as predictors (you can alter this matrix)<a href="load-libraries.---1.html#what-variables-were-used-as-predictors-you-can-alter-this-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>miceMids$predictorMatrix</p>
+</div>
+<div id="view-imputed-data." class="section level5 hasAnchor">
+<h5>View imputed data.<a href="load-libraries.---1.html#view-imputed-data." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>View(miceMids<span class="math inline">\(imp\)</span>maximum_svl) ## This contains the imputed values for each of the 5 datasets.
+View(miceMids<span class="math inline">\(imp\)</span>insular_endemic)</p>
+</div>
+<div id="if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example" class="section level5 hasAnchor">
+<h5>If you are running a statistical analysis on data imputed using MICE, you will have to apply it to EACH of the imputed datasets. For example:<a href="load-libraries.---1.html#if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="fitting-a-linear-regression-to-the-multiply-imputed-datasets-using-the-with-function." class="section level5 hasAnchor">
+<h5>Fitting a linear regression to the multiply imputed datasets using the with() function.<a href="load-libraries.---1.html#fitting-a-linear-regression-to-the-multiply-imputed-datasets-using-the-with-function." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>fit &lt;- with(miceMids, lm(maximum_svl ~ latitude + insular_endemic))</p>
+</div>
+<div id="what-class-is-it-1" class="section level4 hasAnchor">
+<h4>What class is it?<a href="load-libraries.---1.html#what-class-is-it-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>class(fit) ## special class called “mira” that contained results of analyses repeated across MI datasets
+##### Let’s see what it contains.
+fit ## Results of all the different regressions !</p>
+<div id="lets-pool-the-results-together-using-the-pool-function." class="section level5 hasAnchor">
+<h5>Let’s pool the results together using the pool function.<a href="load-libraries.---1.html#lets-pool-the-results-together-using-the-pool-function." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="from-the-mice-documentation-the-pool-function-combines-the-estimates-from-m-repeated-complete-data-analyses." class="section level5 hasAnchor">
+<h5>From the mice documentation: “The pool() function combines the estimates from m repeated complete data analyses.”<a href="load-libraries.---1.html#from-the-mice-documentation-the-pool-function-combines-the-estimates-from-m-repeated-complete-data-analyses." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>pool.fit &lt;- pool(fit)
+summary(pool.fit)</p>
+<p>?pool ## if you are interested in how the pooling is performed</p>
+</div>
+<div id="get-a-list-of-the-imputed-dataframes-using-the-micecomplete-function.-since-we-specified-all-it-will-return-us-a-list-containing-all-of-the-imputed-dataframes.-should-be-length-m." class="section level5 hasAnchor">
+<h5>Get a list of the imputed dataframes using the mice::complete() function. Since we specified “all”, it will return us a list containing all of the imputed dataframes. Should be length “m”.<a href="load-libraries.---1.html#get-a-list-of-the-imputed-dataframes-using-the-micecomplete-function.-since-we-specified-all-it-will-return-us-a-list-containing-all-of-the-imputed-dataframes.-should-be-length-m." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>l_dfMICE &lt;- mice::complete(miceMids, “all”)</p>
+<p>View(l_dfMICE[[1]])</p>
+</div>
+<div id="back-transform-all-the-imputed-values-in-this-list." class="section level5 hasAnchor">
+<h5>Back-transform all the imputed values in this list.<a href="load-libraries.---1.html#back-transform-all-the-imputed-values-in-this-list." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>l_dfMICE &lt;- lapply(l_dfMICE, function(x){
+x[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(x[c(“maximum_svl”, “largest_clutch”)], exp)
+return(x)
+})</p>
+</div>
+</div>
+</div>
+<div id="error-rates.--" class="section level2 hasAnchor">
+<h2>Error rates. —-<a href="load-libraries.---1.html#error-rates.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="lets-see-how-well-the-different-imputation-methods-predicted-the-values." class="section level5 hasAnchor">
+<h5>Let’s see how well the different imputation methods predicted the values.<a href="load-libraries.---1.html#lets-see-how-well-the-different-imputation-methods-predicted-the-values." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="first-back-transform-dfmissing-for-comparison-purposes" class="section level4 hasAnchor">
+<h4>First back-transform dfMissing for comparison purposes<a href="load-libraries.---1.html#first-back-transform-dfmissing-for-comparison-purposes" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>dfMissing[c(“maximum_svl”, “largest_clutch”)] &lt;- lapply(dfMissing[c(“maximum_svl”, “largest_clutch”)], exp)</p>
+<div id="we-can-use-did-the-missforestmixerror-function-for-obtaining-error-rates." class="section level5 hasAnchor">
+<h5>We can use did the missForest::mixError() function for obtaining error rates.<a href="load-libraries.---1.html#we-can-use-did-the-missforestmixerror-function-for-obtaining-error-rates." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="mixerror-is-a-useful-function-because-it-tracks-which-values-were-imputed-for-you-as-long-as-you-can-provide-it-with-the-original-and-missing-dataframes." class="section level5 hasAnchor">
+<h5>mixError is a useful function because it tracks which values were imputed for you, as long as you can provide it with the original and missing dataframes.<a href="load-libraries.---1.html#mixerror-is-a-useful-function-because-it-tracks-which-values-were-imputed-for-you-as-long-as-you-can-provide-it-with-the-original-and-missing-dataframes." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>missForest::mixError(ximp = dfMeanModeImp, xmis = dfMissing, xtrue = dfCompleteCase)</p>
+</div>
+<div id="nrmse-refers-to-the-normalized-root-mean-squared-error-for-the-numeric-data-and-pfc-refers-to-the-proportion-of-falsely-classified-entries-for-the-categorical-variables.-for-both-lower-is-better." class="section level5 hasAnchor">
+<h5>NRMSE refers to the normalized root mean squared error for the numeric data and PFC refers to the proportion of falsely classified entries for the categorical variables. For both, lower is better.<a href="load-libraries.---1.html#nrmse-refers-to-the-normalized-root-mean-squared-error-for-the-numeric-data-and-pfc-refers-to-the-proportion-of-falsely-classified-entries-for-the-categorical-variables.-for-both-lower-is-better." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="if-we-wanted-the-error-for-one-variable" class="section level5 hasAnchor">
+<h5>If we wanted the error for one variable?<a href="load-libraries.---1.html#if-we-wanted-the-error-for-one-variable" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>missForest::mixError(ximp = dfMeanModeImp[“maximum_svl”], xmis = dfMissing[“maximum_svl”], xtrue = dfCompleteCase[“maximum_svl”]) ## Remember it wants a dataframe as input!</p>
+</div>
+<div id="how-about-knn" class="section level5 hasAnchor">
+<h5>How about KNN?<a href="load-libraries.---1.html#how-about-knn" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>missForest::mixError(ximp = dfKNN, xmis = dfMissing, xtrue = dfCompleteCase)
+##### A bit better than mean/mode.</p>
+</div>
+<div id="how-about-missforest" class="section level5 hasAnchor">
+<h5>How about missForest?<a href="load-libraries.---1.html#how-about-missforest" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>missForest::mixError(ximp = dfRF, xmis = dfMissing, xtrue = dfCompleteCase)
+##### Better on the numerical traits but worse on categorical compared to KNN.</p>
+</div>
+<div id="what-if-we-wanted-to-get-the-errors-for-the-mice-datasets" class="section level5 hasAnchor">
+<h5>What if we wanted to get the errors for the MICE datasets?<a href="load-libraries.---1.html#what-if-we-wanted-to-get-the-errors-for-the-mice-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="apply-the-mixerror-function-across-the-imputed-dataframes." class="section level5 hasAnchor">
+<h5>Apply the mixError function across the imputed dataframes.<a href="load-libraries.---1.html#apply-the-mixerror-function-across-the-imputed-dataframes." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>l_MICEerrors &lt;- lapply(l_dfMICE, function(x) mixError(ximp = x, xmis = dfMissing, xtrue = dfCompleteCase))</p>
+</div>
+<div id="lets-average-the-errors-using-the-reduce-function-which-can-used-to-apply-a-function-over-a-list-and-then-return-a-single-result.-here-we-are-adding-the-elements-of-l_errors-and-dividing-them-by-the-length-of-l_errors." class="section level5 hasAnchor">
+<h5>Let’s average the errors using the Reduce() function, which can used to apply a function over a list and then return a single result. Here, we are adding the elements of l_Errors and dividing them by the length of l_Errors.<a href="load-libraries.---1.html#lets-average-the-errors-using-the-reduce-function-which-can-used-to-apply-a-function-over-a-list-and-then-return-a-single-result.-here-we-are-adding-the-elements-of-l_errors-and-dividing-them-by-the-length-of-l_errors." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>Reduce(“+”, l_MICEerrors)/length(l_MICEerrors) ## probably need to pick better methods</p>
+</div>
+</div>
+</div>
+<div id="impute-the-full-dataset.--" class="section level2 hasAnchor">
+<h2>Impute the full dataset. —-<a href="load-libraries.---1.html#impute-the-full-dataset.--" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="from-here-choose-the-best-performing-method-on-the-complete-case-data-and-use-it-to-impute-your-target-dataset." class="section level5 hasAnchor">
+<h5>From here, choose the best-performing method on the complete-case data and use it to impute your target dataset.<a href="load-libraries.---1.html#from-here-choose-the-best-performing-method-on-the-complete-case-data-and-use-it-to-impute-your-target-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="ideally-it-would-be-the-method-that-resulted-in-the-lowest-error-rate-for-the-majority-of-variables." class="section level5 hasAnchor">
+<h5>Ideally, it would be the method that resulted in the lowest error rate for the majority of variables.<a href="load-libraries.---1.html#ideally-it-would-be-the-method-that-resulted-in-the-lowest-error-rate-for-the-majority-of-variables." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>imputeRes &lt;- missForest(xmis = dfFiltered) ## may take a while</p>
+</div>
+<div id="extract-imputed-dataset." class="section level5 hasAnchor">
+<h5>Extract imputed dataset.<a href="load-libraries.---1.html#extract-imputed-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfImputed &lt;- imputeRes$ximp</p>
+</div>
+<div id="combine-dataframes-into-list." class="section level5 hasAnchor">
+<h5>Combine dataframes into list.<a href="load-libraries.---1.html#combine-dataframes-into-list." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>l_dfAll &lt;- list(dfCompleteCase, dfRF, dfFiltered, dfImputed)</p>
+</div>
+<div id="name-the-list-according-to-dataframe." class="section level5 hasAnchor">
+<h5>Name the list according to dataframe.<a href="load-libraries.---1.html#name-the-list-according-to-dataframe." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>names(l_dfAll) &lt;- c(“CC”, “SIM”, “O”, “IMP”)</p>
+</div>
+<div id="we-need-to-make-some-alterations-for-plotting." class="section level5 hasAnchor">
+<h5>We need to make some alterations for plotting.<a href="load-libraries.---1.html#we-need-to-make-some-alterations-for-plotting." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>for(i in 1:length(l_dfAll)){</p>
+<p># Get name of dataframe.
+ID &lt;- names(l_dfAll)[[i]]</p>
+<p># Add ID to column names of dataframe so we can identify which dataframe it came from.
+names(l_dfAll[[i]]) &lt;- paste(ID, colnames(l_dfAll[[i]]), sep = “_“)</p>
+<p># Add species col so we can merge them together.
+l_dfAll[[i]]$species &lt;- rownames(l_dfAll[[i]])</p>
+<p>}</p>
+<p>View(l_dfAll[[1]])</p>
+</div>
+<div id="merge-all-the-dataframes-by-species." class="section level5 hasAnchor">
+<h5>Merge all the dataframes by species.<a href="load-libraries.---1.html#merge-all-the-dataframes-by-species." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfAll &lt;- Reduce(function(…) merge(…, by = “species”, all = T), l_dfAll)
+names(dfAll)</p>
+</div>
+<div id="from-here-we-can-make-plots-pretty-easily." class="section level5 hasAnchor">
+<h5>From here, we can make plots pretty easily.<a href="load-libraries.---1.html#from-here-we-can-make-plots-pretty-easily." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfSubset &lt;- select(dfAll, c(CC_largest_clutch, SIM_largest_clutch,
+O_largest_clutch, IMP_largest_clutch))</p>
+</div>
+<div id="log-transform-data-for-better-visualization." class="section level5 hasAnchor">
+<h5>Log transform data for better visualization.<a href="load-libraries.---1.html#log-transform-data-for-better-visualization." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfSubset &lt;- as.data.frame(lapply(dfSubset, log)) ## sometimes dataframe format is easier to deal</p>
+</div>
+<div id="get-sample-size-counts-for-each-column." class="section level5 hasAnchor">
+<h5>Get sample size counts for each column.<a href="load-libraries.---1.html#get-sample-size-counts-for-each-column." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>sampleSizes &lt;- sapply(dfSubset, function(x) sum(!is.na(x)))
+sampleSizes</p>
+</div>
+<div id="pivot-dataframe-to-long-form-so-we-can-more-easily-plot-variables-by-group." class="section level5 hasAnchor">
+<h5>Pivot dataframe to long form so we can more easily plot variables by group.<a href="load-libraries.---1.html#pivot-dataframe-to-long-form-so-we-can-more-easily-plot-variables-by-group." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfPivot &lt;- pivot_longer(dfSubset, cols = colnames(dfSubset))
+View(dfPivot)</p>
+</div>
+<div id="convert-to-factor." class="section level5 hasAnchor">
+<h5>Convert to factor.<a href="load-libraries.---1.html#convert-to-factor." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfPivot<span class="math inline">\(name &lt;- as.factor(dfPivot\)</span>name)</p>
+</div>
+<div id="x-axis-label-containing-sample-size-information." class="section level5 hasAnchor">
+<h5>X-axis label containing sample size information.<a href="load-libraries.---1.html#x-axis-label-containing-sample-size-information." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dataType &lt;- c(“Complete case”, “Sim-imputed”, “Original”, “Original - Post-imputation”)</p>
+</div>
+<div id="paste-sample-size-onto-datatype-vector." class="section level5 hasAnchor">
+<h5>Paste sample size onto dataType vector.<a href="load-libraries.---1.html#paste-sample-size-onto-datatype-vector." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>xlabel &lt;- paste(dataType, “”, “(n =”, sampleSizes, “)” , sep = ““)</p>
+</div>
+<div id="ggplot-comparing-trait-distributions" class="section level5 hasAnchor">
+<h5>GGplot comparing trait distributions<a href="load-libraries.---1.html#ggplot-comparing-trait-distributions" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ggplot(dfPivot, aes(x = name, y = value, fill = name)) +
+geom_boxplot() +
+labs(title = trait, y = ““, x =”“) +
+scale_x_discrete(labels = xlabel) +
+scale_fill_brewer(palette =”Set3”) +
+theme_minimal(base_size = 12) + # Base font size
+theme(legend.position = “none”) +
+theme(axis.text = element_text(size = 10, face = “bold”))</p>
+</div>
+<div id="lets-plot-a-categorical-trait-now" class="section level5 hasAnchor">
+<h5>Let’s plot a categorical trait now!<a href="load-libraries.---1.html#lets-plot-a-categorical-trait-now" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>names(dfAll)</p>
+</div>
+<div id="same-steps-as-above." class="section level5 hasAnchor">
+<h5>Same steps as above.<a href="load-libraries.---1.html#same-steps-as-above." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfSubset &lt;- select(dfAll, c(CC_diet, SIM_diet,
+O_diet, IMP_diet))</p>
+<p>sampleSizes &lt;- sapply(dfSubset, function(x) sum(!is.na(x)))</p>
+</div>
+<div id="create-dataframe-containing-category-counts-for-each-group." class="section level5 hasAnchor">
+<h5>Create dataframe containing category counts for each group.<a href="load-libraries.---1.html#create-dataframe-containing-category-counts-for-each-group." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfPivot &lt;- pivot_longer(dfSubset, cols = colnames(dfSubset))</p>
+</div>
+<div id="convert-to-factor.-1" class="section level5 hasAnchor">
+<h5>Convert to factor.<a href="load-libraries.---1.html#convert-to-factor.-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfPivot<span class="math inline">\(name &lt;- as.factor(dfPivot\)</span>name)</p>
+</div>
+<div id="group-by-name-and-value-to-prepare-data-for-plotting." class="section level5 hasAnchor">
+<h5>Group by name and value to prepare data for plotting.<a href="load-libraries.---1.html#group-by-name-and-value-to-prepare-data-for-plotting." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>dfCount &lt;- dfPivot %&gt;%
+na.omit() %&gt;%
+group_by(name, value) %&gt;%
+# Get counts by group
+summarise(count = n()) %&gt;%
+mutate(prop = count/sum(count))</p>
+<p>View(dfCount)</p>
+</div>
+<div id="paste-sample-size-onto-datatype-vector.-1" class="section level5 hasAnchor">
+<h5>Paste sample size onto dataType vector.<a href="load-libraries.---1.html#paste-sample-size-onto-datatype-vector.-1" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>xlabel &lt;- paste(dataType, “”, “(n =”, sampleSizes, “)” , sep = ““)</p>
+</div>
+<div id="barplot-comparing-trait-categories-of-complete-case-pre--and-post-imputation." class="section level5 hasAnchor">
+<h5>Barplot comparing trait categories of complete-case, pre- and post-imputation.<a href="load-libraries.---1.html#barplot-comparing-trait-categories-of-complete-case-pre--and-post-imputation." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ggplot(data = dfCount, mapping = aes(x = name, y = prop, fill = value)) +
+geom_bar(stat = “identity”, position = “dodge”) +
+scale_x_discrete(labels = xlabel) +
+scale_fill_brewer(palette = “Blues”) +
+geom_text(aes(label = scales::percent(prop, accuracy = 0.1)), vjust = -.5,
+position = position_dodge(0.9), size = 3) +
+theme(axis.text=element_text(size = 10, face = “bold”)) +
+labs(title = trait, y = ““, x =”“) +
+theme_minimal()</p>
+</div>
+<div id="compare-inferences-obtained-from-complete-case-and-imputed-datasets.--" class="section level5 hasAnchor">
+<h5>Compare inferences obtained from complete-case and imputed datasets. —-<a href="load-libraries.---1.html#compare-inferences-obtained-from-complete-case-and-imputed-datasets.--" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="finally-something-you-should-consider-after-finishing-your-analysis..re-doing-the-analysis-using-the-complete-case-dataset-and-comparing-it-to-the-results-obtained-using-your-final-imputed-dataset." class="section level5 hasAnchor">
+<h5>Finally, something you should consider after finishing your analysis..re-doing the analysis using the complete-case dataset and comparing it to the results obtained using your final imputed dataset.<a href="load-libraries.---1.html#finally-something-you-should-consider-after-finishing-your-analysis..re-doing-the-analysis-using-the-complete-case-dataset-and-comparing-it-to-the-results-obtained-using-your-final-imputed-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="how-do-the-results-change" class="section level5 hasAnchor">
+<h5>How do the results change?<a href="load-libraries.---1.html#how-do-the-results-change" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="logistic-regression" class="section level5 hasAnchor">
+<h5>Logistic regression<a href="load-libraries.---1.html#logistic-regression" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ccModel &lt;- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+latitude, data = dfCompleteCase, family = “binomial”)
+summary(ccModel)</p>
+<p>simModel &lt;- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+latitude, data = dfRF, family = “binomial”)
+summary(simModel)</p>
+<p>targetModel &lt;- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+latitude, data = dfImputed, family = “binomial”)
+summary(targetModel)</p>
+</div>
+<div id="one-last-plot-to-compare-how-results-change-between-complete-case-and-imputed-models." class="section level5 hasAnchor">
+<h5>One last plot to compare how results change between complete-case and imputed models.<a href="load-libraries.---1.html#one-last-plot-to-compare-how-results-change-between-complete-case-and-imputed-models." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>cols &lt;- c(“#F3E79A”, “#ED7C97”, “#9F7FCD”)
+# Create dataframe of p-values from complete-case and imputed models.
+dfPvalues &lt;- data.frame(
+trait = c(“Activity time”, “Max. SVL”, “Repro. mode”, “Insular/endemic”, “Latitude”),
+p_cc = -log(c(2.37e-06, 0.00270, 0.00093, 1.37e-06, 9.66e-06)),
+p_sim = -log(c(3.10e-07, 0.000234, 0.007901, 1.95e-07, 0.000108)),
+p_imp = -log(c(2e-16, 1.11e-09, 0.143, 6.27e-15, 2e-16)))
+##### Note that we use the -log to improve visualization and visibility of smaller p-values.</p>
+</div>
+<div id="dumbbell-plot-for-comparing-p-values." class="section level5 hasAnchor">
+<h5>Dumbbell plot for comparing p-values.<a href="load-libraries.---1.html#dumbbell-plot-for-comparing-p-values." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="complete-case-vs.-sim-imputed." class="section level5 hasAnchor">
+<h5>Complete-case vs. sim-imputed.<a href="load-libraries.---1.html#complete-case-vs.-sim-imputed." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ggplot(dfPvalues) +
+geom_segment(aes(x = trait, xend = trait, y = p_cc, yend = p_sim), color=“#9F7FCD”, size = 6.5, alpha = .4) +
+geom_point(aes(x = trait, y = p_cc), colour = “#ED7C97”, shape = “triangle”, size = 6.5, show.legend = TRUE) +
+geom_pointrange(aes(x = trait, y = p_sim, ymin = p_sim, ymax = p_sim), colour = “#F3E79A”, size = 1.5, show.legend = TRUE) +
+theme_minimal() +
+geom_hline(yintercept = -log(0.05), linetype = “dashed”,
+color = “darkgray”, size = 1) +
+labs(title = “Complete-case vs. sim-imputed dataset”,
+x = “”, y = “-ln(P-value)”) +
+theme(axis.text.x = element_text(size = 12, vjust = 0.5, hjust = 0.5),
+axis.text = element_text(size = 12, face = “bold”),
+strip.text.x = element_text(size = 10, face = “bold”),
+axis.title=element_text(size = 14, face=“bold”))</p>
+</div>
+<div id="complete-case-vs.-full-imputed-dataset." class="section level5 hasAnchor">
+<h5>Complete-case vs. full imputed dataset.<a href="load-libraries.---1.html#complete-case-vs.-full-imputed-dataset." class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>ggplot(dfPvalues) +
+geom_segment(aes(x = trait, xend = trait, y = p_cc, yend = p_imp), color=“#9F7FCD”, size = 6.5, alpha = .4) +
+geom_point(aes(x = trait, y = p_cc), colour = “#ED7C97”, shape = “triangle”, size = 6.5, show.legend = TRUE) +
+geom_pointrange(aes(x = trait, y = p_imp, ymin = p_imp, ymax = p_imp), colour = “#F3E79A”, size = 1.5, show.legend = TRUE) +
+theme_minimal() +
+geom_hline(yintercept = -log(0.05), linetype = “dashed”,
+color = “darkgray”, size = 1) +
+labs(title = “Complete-case vs. full imputed dataset”,
+x = “”, y = “-ln(P-value)”) +
+theme(axis.text.x = element_text(size = 12, vjust = 0.5, hjust = 0.5),
+axis.text = element_text(size = 12, face = “bold”),
+strip.text.x = element_text(size = 10, face = “bold”),
+axis.title=element_text(size = 14, face=“bold”))</p>
+</div>
+<div id="reproductive-mode-did-have-a-considerable-amount-of-missingness-40" class="section level5 hasAnchor">
+<h5>Reproductive mode did have a considerable amount of missingness (~40%)<a href="load-libraries.---1.html#reproductive-mode-did-have-a-considerable-amount-of-missingness-40" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+</div>
+<div id="it-is-important-to-consider-how-imputed-values-impact-your-results-every-step-of-the-way-from-accuracy-of-imputed-values-to-the-downstream-impacts-on-inferences.-but-imputation-is-a-very-powerful-tool-if-used-in-the-right-way" class="section level5 hasAnchor">
+<h5>It is important to consider how imputed values impact your results every step of the way, from accuracy of imputed values to the downstream impacts on inferences. But, imputation is a very powerful tool if used in the right way!<a href="load-libraries.---1.html#it-is-important-to-consider-how-imputed-values-impact-your-results-every-step-of-the-way-from-accuracy-of-imputed-values-to-the-downstream-impacts-on-inferences.-but-imputation-is-a-very-powerful-tool-if-used-in-the-right-way" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="module-2-dealing-with-missingness.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="module-3-modeling-part-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cbw-dev/STAT_2024/blob/main/020-module-2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

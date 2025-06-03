@@ -1,13 +1,525 @@
 # (PART) Modules {-}
 
-# Module 1
+# Module 1: Data Cleaning and Exploration Review
 
 ## Lecture
 
-<!--<iframe width="640" height="360" src="YOUTUBE EMBED LINK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
--->
+<iframe width="640" height="360" src="https://www.youtube.com/embed/FGTl27bddFI?si=HEozmRz4dyfTycqZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<!--<iframe src="GOOGLE SLIDES LINK/preview" width="640" height="480" allow="autoplay"></iframe>  
--->
+<br>
+
+<iframe src="https://drive.google.com/file/d/13NcJR_WhQz1vYBAjwqbNY8aFlAJA11YK/preview" width="640" height="480" allow="autoplay"></iframe>  
 
 ## Lab
+
+### Load Libraries ----
+
+To install a package:
+
+```{r, message=FALSE, warning=FALSE}
+install.packages("tidyverse")
+```
+
+To load a library:
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(rfishbase)
+library(factoextra)
+```
+
+### Read in Data ----
+
+Get your current working directory.
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+getwd()
+```
+
+Download csv file from this link: https://doi.org/10.5061/dryad.f6t39kj
+Place it into your current working directory.
+
+Read in data.
+
+```{r, message=FALSE, warning=FALSE}
+dfReptiles <- read.csv('Appendix S1 - Lizard data version 1.0.csv')
+```
+
+### Looking at your data. ----
+
+```{r, message=FALSE, warning=FALSE}
+# What class is it?
+class(dfReptiles)
+
+# How many rows and columns?
+dim(dfReptiles)
+
+# Look at the column names.
+colnames(dfReptiles)
+names(dfReptiles)[1:10]
+
+# If you want to view your dataset.
+head(dfReptiles, 10)
+
+# We have a lot of columns. Let's subset to remove columns we don't need for now.
+dfTraits <- dfReptiles %>% ## tidyverse pipe 
+  # Select function allows us to choose the columns we want
+  select(c(Binomial, Genus, Family,
+           main.biogeographic.Realm, Latitude.centroid..from.Roll.et.al..2017.,
+           insular.endemic, maximum.SVL, hatchling.neonate.SVL, Leg.development,
+           Activity.time, substrate, diet, foraging.mode, reproductive.mode,
+           smallest.clutch, largest.clutch, youngest.age.at.first.breeding..months.,
+           IUCN.redlist.assessment, IUCN.population.trend, Extant.Extinct
+           ))
+
+names(dfTraits)
+# Let's clean up these column names!
+names(dfTraits) <- tolower(names(dfTraits))
+
+# Replace all "." with "_" (personal preference)
+names(dfTraits) <- gsub("\\.", "_", names(dfTraits))
+names(dfTraits)
+```
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# Make some of the names shorter.
+names(dfTraits)[5] <- "latitude"
+names(dfTraits)[17] <- "age_first_breeding"
+names(dfTraits)[17]
+
+# Rename species column.
+names(dfTraits)[1] <- "species"
+
+# In order to properly count the number of missing values, replace blanks with NAs
+# I always do this just in case.
+dfTraits[dfTraits == " "] <- NA
+
+# Make sure there are no species name duplications. 
+# Note that using the sum() function on logical vector will count the number of TRUE values.
+duplicated(dfTraits$species)
+sum(duplicated(dfTraits$species))
+```
+
+```{r, message=FALSE, warning=FALSE}
+# Are there any species that don't have ANY data?
+missRows <- apply(dfTraits[, -(1:3)], MARGIN = 1, function(x) all(is.na(x)))
+# Let's break that down! First, we ed if "x" row had NAs.
+is.na(dfTraits[1, ]) ## logical vector
+# Then we ed if they were ALL NAs (it is ing if all of the elements are NA)
+dfTraits[1, ]
+all()
+# Note you could use the "any" function to  if ANY of the elements are NA
+any() ## There are a couple NAs
+```
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# Then we "apply" that function to all of the rows (MARGIN = 1) in the dataframe which returns:
+missRows
+```
+
+```{r, message=FALSE, warning=FALSE}
+sum(missRows)
+
+# If you wanted to remove species without any trait data from the dataframe:
+dfTraits <- dfTraits[!missRows, ]
+```
+
+### Working with different data types. ----
+
+Let's try to understand the type of data we are working with.
+
+```{r, message=FALSE, warning=FALSE}
+names(dfTraits)
+
+# First, let's ID which columns are taxonomic information so we don't include them in our summary stats.
+taxCols <- c("species", "genus", "family")
+
+# The rest are traits
+traits <- setdiff(names(dfTraits), taxCols)
+traits
+
+#  the classes of the traits.
+sapply(dfTraits[traits], class)
+
+# Let's ID which traits are numerical and which are categorical.
+index <- sapply(dfTraits[traits], is.numeric)
+index
+
+# Wait! Something doesn't seem right..! 
+class(dfTraits$maximum_svl)
+head(dfTraits)
+
+# The column has strings mixed with numbers, which returns a character vector.
+# We should replace the strings with NAs.
+# Here, we are using regex to match any letter and then replacing the matches with NAs.
+dfTraits$maximum_svl <- gsub(pattern = "[a-zA-Z]", replacement = NA, x = dfTraits$maximum_svl)
+dfTraits$hatchling_neonate_svl <- gsub("[a-zA-Z]", NA, dfTraits$hatchling_neonate_svl)
+
+# Change both traits to numeric.
+# Note here I am using lapply to apply the function for the columns of dfTraits.
+# Note: lapply returns a list, sapply returns a vector. "map" would be the tidyverse equivalent of apply, lapply, sapply, etc. functions.
+dfTraits[, c("maximum_svl", "hatchling_neonate_svl")] <- lapply(dfTraits[, c("maximum_svl", "hatchling_neonate_svl")], as.numeric)
+
+class(dfTraits$maximum_svl)
+
+# Let's try IDing our numerical traits again.
+index <- sapply(dfTraits[traits], is.numeric)
+
+# Subset the column names using indexing.
+contTraits <- traits[index]
+contTraits ## is this right?
+
+# Get the categorical traits.
+catTraits <- setdiff(traits, contTraits)
+
+# Convert character to factor because this is helpful for summary stats and plotting.
+# It is also the data class that regression models require for categorical variables.
+dfTraits[catTraits] <- lapply(dfTraits[catTraits], as.factor)
+# If you wanted to make a particular category within a variable the reference.
+# Important for statistical analyses with categorical variables.
+table(dfTraits$insular_endemic)
+dfTraits$insular_endemic <- relevel(dfTraits$insular_endemic, "no")
+
+# One last .
+sapply(dfTraits, class)
+```
+
+### Summary stats. ----
+
+Some base R summary statistics to get a quick look at your data.
+
+```{r, message=FALSE, warning=FALSE}
+summary(dfTraits)
+```
+
+Time for some tidyverse magic!
+
+Use of the tidyverse pipe avoids us having to create several interim variables while also improving readability.
+
+```{r, message=FALSE, warning=FALSE}
+# Say we only wanted to keep extant species:
+dfTraits <- dfTraits %>%
+  # Filter function allows us to apply a condition to our data.
+  filter(extant_extinct == "extant") %>%
+  # Remove column using minus sign as we no longer need it
+  select(-extant_extinct)
+
+# Remove trait from catTraits.
+catTraits
+catTraits <- catTraits[-11]
+  
+# Other summary info.
+# How many families do we have?
+unique(dfTraits$family)
+length(unique(dfTraits$family))
+
+# Top 10 Families with most species.
+# You can sort by increasing or decreasing number of species.
+head(sort(table(dfTraits$family), decreasing = T), n = 10)
+
+# Doing the same thing, but with tidyverse syntax
+dfTraits %>%
+  dplyr::count(family, sort = T) %>% ## to make sure the count function isn't masked
+  head(n = 10)
+
+# Sample size (number of complete observations for this trait)
+head(na.omit(dfTraits$maximum_svl)) ## na.omit removes NAs from the vector
+length(na.omit(dfTraits$maximum_svl))
+
+# Mean of the data
+mean(dfTraits$maximum_svl, na.rm = T) ## has option for removing number of NAs in the function
+
+# Range of the data
+range(dfTraits$maximum_svl, na.rm = T)
+
+# Proportion of NAs
+sum(is.na(dfTraits$maximum_svl))
+sum(is.na(dfTraits$maximum_svl)) / length(dfTraits$maximum_svl)
+
+# To speed things up, (l)apply these to all of the numerical traits using an anonymous function.
+# An anonymous function is a function without a name that you really only need temporarily
+# e.g., within the confines of this lapply call.
+l_contInfo <- lapply(dfTraits[contTraits], function(x){
+  
+  # Number of complete observations
+  n <- length(na.omit(x))
+  
+  # Mean
+  avg <- mean(x, na.rm = T)
+  
+  # Number of NAs
+  numNAs <- sum(is.na(x))
+  
+  # Proportion of NAs
+  propNAs <- sum(is.na(x)) / length(x)
+  
+  # Return in dataframe format
+  return(data.frame(n, avg, numNAs, propNAs))
+  
+})
+
+# View the first element of the list.
+head(l_contInfo[[1]])
+
+# Bind list of dataframes together by using the do.call() function.
+# This lets you rbind() the entire list of dataframes.
+dfContInfo <- do.call(rbind, l_contInfo)
+
+head(dfContInfo)
+
+# Do the same thing for the categorical data.
+lapply(dfTraits[catTraits], table)
+
+l_catInfo <- lapply(dfTraits[catTraits], function(x){
+  
+  n <- length(na.omit(x))
+  # number of unique categories instead of mean for example
+  cats <- length(unique(x))
+  numNAs <- sum(is.na(x))
+  propNAs <- sum(is.na(x)) / length(x)
+  
+  return(data.frame(n, cats, numNAs, propNAs))
+  
+})
+
+# Bind together list.
+dfCatInfo <- do.call(rbind, l_catInfo)
+
+head(dfCatInfo)
+
+# Tidyverse has handy functions for getting summary data by group.
+# For example, if we wanted to get summary information grouped by family:
+summary_stats1 <- dfTraits %>%
+  # Group by family
+  group_by(family) %>%
+  # Get the mean max SVL for each group and put it into a new column called avg_length
+  summarize(avg_length = mean(maximum_svl, na.rm = T)) %>%
+  # Arrange in descending order
+  arrange(desc(avg_length)) %>%
+  # Print to console
+  print()
+
+# Let's add some info on other traits
+summary_stats2 <- dfTraits %>%
+  group_by(family) %>%
+  summarize(
+    avg_length = mean(maximum_svl, na.rm = T),
+    # Average largest clutch
+    avg_lc = mean(largest_clutch, na.rm = T),
+    # Most common diet in each family
+    top_diet = names(sort(table(diet), decreasing = T)[1]),
+  ) %>%
+  print()
+```
+
+### Exploratory plots. ----
+
+Let's perform some data visualization to identify patterns and variable associations in our dataset.
+
+```{r, message=FALSE, warning=FALSE}
+# Base R histograms for numerical traits
+hist(dfTraits$maximum_svl) ## there are some VERY long species!
+hist(dfTraits$latitude)
+
+# ggplot to beautify the data
+# ggplot is a very powerful tool for visualizing data but you need to get used to the syntax
+ggplot(dfTraits) + ## note use of "+" over "%>%
+  # Plot a histogram and make it blue.
+  # geom_* indicates what type of plot you want. aes = aesthetic mapping
+  geom_histogram(mapping = aes(x = latitude), 
+                 fill = "skyblue", colour = "black") +
+  # Add labels
+  labs(title = "Reptile Latitude", 
+       x = "Latitude (°)", y = "Count") +
+  # Change the plot theme (here, making the background white)
+  theme_minimal(base_size = 12) + 
+  # Change the theme and make some font adjustments
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# barplot for categorical traits
+plot(dfTraits$diet)
+
+# ggplot version
+# Get rid of those pesky NAs for plotting
+ggplot(data = dfTraits %>% filter(!is.na(diet))) +
+  # Barplot
+  geom_bar(mapping = aes(x = diet, fill = diet), width = 0.7) +
+  # Custom colours
+  scale_fill_brewer(palette = "Paired") +
+  labs(title = "Diet Types in Reptiles",
+       x = "Diet",
+       y = "Count") +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "none")
+
+?scale_fill_brewer ## Lots of options, including colour blind friendly options
+
+# Relationships between numerical variables
+plot(dfTraits[contTraits]) ## scatter plots for each pair of traits
+
+# Correlations
+# Ranges from -1 to 1 and gives insight about the strength of pairwise relationships
+?cor
+# Note that you have the option to use different coefficients (Pearson, Kendall, Spearman)
+cor(dfTraits[contTraits], use = "pairwise.complete.obs")
+
+# Test for significant association between two traits
+cor.test(dfTraits$hatchling_neonate_svl, dfTraits$age_first_breeding)
+
+# The output tells us there is a statistically significant correlation (p-value < 0.05) between these two variables.
+
+# Quick ggplot to see relationship
+ggplot(data = dfTraits) +
+  geom_point(mapping = aes(x = age_first_breeding, y = hatchling_neonate_svl))
+
+# Are these data normally distributed? We can  this using QQ plots.
+hist(dfTraits$hatchling_neonate_svl)
+# The x-axis is the quantiles from the theoretical distribution we are comparing to (i.e., normal distribution) and y-axis is the quantiles from our data
+qqnorm(dfTraits$hatchling_neonate_svl)
+qqline(dfTraits$hatchling_neonate_svl) ## skewed distribution
+
+# Let' see if we can use a log-transformation to make our data resemble a normal distribution
+hist(dfTraits$hatchling_neonate_svl)
+hist(log(dfTraits$hatchling_neonate_svl))
+qqnorm(log(dfTraits$hatchling_neonate_svl))
+qqline(log(dfTraits$hatchling_neonate_svl)) ## it helps!
+
+# If you wanted to keep the original data in your dataset, you could use the mutate function to create a new column with the log-transformed data
+dfTraits <- dfTraits %>%
+  mutate(log_hatchling_neonate_svl = log(hatchling_neonate_svl),
+         log_age_first_breeding = log(age_first_breeding))
+names(dfTraits)
+
+# Plot the transformed data.
+# Note I placed the x and y variables in the ggplot argument here so I don't have to do it twice for both geom_point and geom_smooth
+ggplot(data = dfTraits, aes(x = log_hatchling_neonate_svl, y = log_age_first_breeding)) +
+  geom_point(# Adding some colour and transparency (alpha) to the points
+             color = "skyblue", size = 2, alpha = 0.7) +
+  # Add linear regression line
+  geom_smooth(method = "lm", color = "darkblue", linewidth = 0.5) +  
+  theme_minimal(base_size = 12)
+
+# Boxplots to show distributions of SVL by IUCN redlist assessment
+ggplot(data = dfTraits, mapping = aes(x = iucn_redlist_assessment, y = log(maximum_svl))) +
+  # Boxplot
+  geom_boxplot(aes(fill = iucn_redlist_assessment)) +
+  scale_fill_brewer(palette = "Blues") +
+  labs(title = "SVL Distribution by IUCN Redlist Assessment in Reptiles",
+       x = "IUCN Redlist Assessment",
+       y = "Log Maximum SVL") +
+  # Flipping the coordinates for better visualization
+  coord_flip() +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "none") ## remove the legend
+
+# Associations between categorical variables.
+ggplot(data = dfTraits %>% filter(!is.na(diet))) +
+  # Using a variant of geom_point
+  geom_count(mapping = aes(x = diet, y = iucn_redlist_assessment)) +
+  labs(x = "Diet",
+       y = "IUCN Redlist Assessment") +
+  # Increasing the size of the points
+  scale_size_continuous(range = c(2, 10), name = "Count") +
+  theme_minimal(base_size = 12) 
+```
+
+Based on this, you may ask yourself what variables/relationships you want to explore further and which you could possibly remove from your dataset.
+
+### Outlier detection. ----
+
+Remember those really long species? Let's look at them a bit more closely! But this time, we will group by family and highlight outliers using the outlier arguments available in geom_boxplot.
+
+```{r, message=FALSE, warning=FALSE}
+# Boxplots to show distributions of maximum SVL by family
+ggplot(data = dfTraits %>% filter(!is.na(maximum_svl))) +
+  geom_boxplot(mapping = aes(x = family, y = maximum_svl),
+               outlier.color = "red") +
+  coord_flip()
+```
+
+##### You can see the outliers are a part of the Varanidae family. 
+
+```{r, message=FALSE, warning=FALSE}
+# Using the interquartile method to identify outliers.
+# Determine the 1st quartile using the quantile function.
+quantile(dfTraits[, "maximum_svl"], na.rm = T)
+lowerQuantile <- quantile(dfTraits[, "maximum_svl"], na.rm = T)[2]
+
+# Determine the 3rd quartile using the quantile function.
+upperQuantile <- quantile(dfTraits[, "maximum_svl"], na.rm = T)[4]
+upperQuantile
+
+# Calculate the IQR by subtracting the 1st quartile from the 3rd quartile.
+iqr <- upperQuantile - lowerQuantile
+
+# Calculate our upper threshold ((3 x the IQR) + upperQuantile).
+upperThreshold <- (iqr * 3) + upperQuantile
+
+# Identify outliers based on whether they exceed the upper threshold.
+outliers <- which(dfTraits[, "maximum_svl"] > upperThreshold)
+
+# Subset the outliers with taxonomic information.
+dfOutliers <- dfTraits[outliers, c("family", "genus", "species", "maximum_svl")]
+
+head(dfOutliers)
+```
+
+Detect points that may be need to be ed out further. Should you remove them or not? E.g., look further into whether they might be human error or a legitimate biological observation! And of course, the choice to remove outliers will also depend on the model you end up using.
+
+### Dimensionality reduction. ----
+
+If you have a high dimensional dataset, you may think about using PCA to make your data more manageable.
+
+Principal component analysis example.
+
+```{r, message=FALSE, warning=FALSE}
+# Create a data subset for PCA analysis.
+colnames(dfTraits)
+# We need to remove NAs before doing this (but don't worry, we will deal with missing values this afternoon)!
+dfPCA <- as.data.frame(na.omit(dfTraits[contTraits]))
+
+# Perform PCA analysis using prcomp. 
+pcaRes <- prcomp(dfPCA, center = T, scale = T)
+
+# Standard deviations for each principal component.
+pcaRes$sdev
+
+# The columns here are eigenvectors that correspond to each principal component, tells you how much each variable contributes to the component
+pcaRes$rotation
+
+# The transformed variables in the PCA space.
+pcaRes$x
+
+# How much variance is explained by each of the components?
+summary(pcaRes)
+
+# This plot shows the percentage of variance explained by each of the components.
+fviz_eig(pcaRes, addlabels = T)
+
+# This plot visualizes both the principal components and the original variables.
+# Longer arrows indicate greater contribution
+fviz_pca_var(pcaRes,
+             # colour by contribution
+             col.var = "contrib",
+             gradient.cols = "Paired",
+             repel = T, 
+             xlab = "Principal Component 1",
+             ylab = "Principal Component 2") + ## takes ggplot arguments
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# Next step would be to extract the components to use in an analysis down the road (covered in later modules)
+
+# From here, keep the variables you are interested in exploring for your analysis.
+# But beware! Imputation prep is next, and it's not so forgiving!
+dfTraits <- dfTraits %>%
+  select(family, genus, species, latitude, insular_endemic, maximum_svl,
+         hatchling_neonate_svl, activity_time, diet, foraging_mode,
+         reproductive_mode, largest_clutch, age_first_breeding, 
+         iucn_redlist_assessment)
+
+# Write dataset to file for next module.
+write.csv(dfTraits, "dfTraits.csv", row.names = F)
+```
+

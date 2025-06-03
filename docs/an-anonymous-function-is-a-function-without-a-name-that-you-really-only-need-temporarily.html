@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>An anonymous function is a function without a name that you really only need temporarily | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="An anonymous function is a function without a name that you really only need temporarily | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="cbw-dev/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="An anonymous function is a function without a name that you really only need temporarily | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="to-speed-things-up-lapply-these-to-all-of-the-numerical-traits-using-an-anonymous-function..html"/>
+<link rel="next" href="e.g.-within-the-confines-of-this-lapply-call..html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="meet-your-faculty.html"><a href="meet-your-faculty.html"><i class="fa fa-check"></i>Meet Your Faculty</a></li>
+<li class="chapter" data-level="" data-path="data-and-compute-setup.html"><a href="data-and-compute-setup.html"><i class="fa fa-check"></i>Data and Compute Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="load-libraries.--.html"><a href="load-libraries.--.html"><i class="fa fa-check"></i>Load libraries. —-</a></li>
+<li class="chapter" data-level="" data-path="read-in-data.--.html"><a href="read-in-data.--.html"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="get-your-current-working-directory..html"><a href="get-your-current-working-directory..html"><i class="fa fa-check"></i>Get your current working directory.</a></li>
+<li class="chapter" data-level="" data-path="download-csv-file-from-this-link-httpsdoi.org10.5061dryad.html"><a href="download-csv-file-from-this-link-httpsdoi.org10.5061dryad.html"><i class="fa fa-check"></i>Download csv file from this link: https://doi.org/10.5061/dryad.f6t39kj</a></li>
+<li class="chapter" data-level="" data-path="place-it-into-your-current-working-directory..html"><a href="place-it-into-your-current-working-directory..html"><i class="fa fa-check"></i>Place it into your current working directory.</a></li>
+<li class="chapter" data-level="" data-path="read-in-data..html"><a href="read-in-data..html"><i class="fa fa-check"></i>Read in data.</a></li>
+<li class="chapter" data-level="" data-path="looking-at-your-data.--.html"><a href="looking-at-your-data.--.html"><i class="fa fa-check"></i>Looking at your data. —-</a></li>
+<li class="chapter" data-level="" data-path="what-class-is-it.html"><a href="what-class-is-it.html"><i class="fa fa-check"></i>What class is it?</a></li>
+<li class="chapter" data-level="" data-path="how-many-rows-and-columns.html"><a href="how-many-rows-and-columns.html"><i class="fa fa-check"></i>How many rows and columns?</a></li>
+<li class="chapter" data-level="" data-path="look-at-the-column-names..html"><a href="look-at-the-column-names..html"><i class="fa fa-check"></i>Look at the column names.</a></li>
+<li class="chapter" data-level="" data-path="if-you-want-to-view-your-dataset..html"><a href="if-you-want-to-view-your-dataset..html"><i class="fa fa-check"></i>If you want to view your dataset.</a></li>
+<li class="chapter" data-level="" data-path="we-have-a-lot-of-columns.-lets-subset-to-remove-columns-we-dont-need-for-now..html"><a href="we-have-a-lot-of-columns.-lets-subset-to-remove-columns-we-dont-need-for-now..html"><i class="fa fa-check"></i>We have a lot of columns. Let’s subset to remove columns we don’t need for now.</a></li>
+<li class="chapter" data-level="" data-path="replace-all-.-with-_-personal-preference.html"><a href="replace-all-.-with-_-personal-preference.html"><i class="fa fa-check"></i>Replace all “.” with “_” (personal preference)</a></li>
+<li class="chapter" data-level="" data-path="make-some-of-the-names-shorter..html"><a href="make-some-of-the-names-shorter..html"><i class="fa fa-check"></i>Make some of the names shorter.</a></li>
+<li class="chapter" data-level="" data-path="rename-species-column..html"><a href="rename-species-column..html"><i class="fa fa-check"></i>Rename species column.</a></li>
+<li class="chapter" data-level="" data-path="in-order-to-properly-count-the-number-of-missing-values-replace-blanks-with-nas.html"><a href="in-order-to-properly-count-the-number-of-missing-values-replace-blanks-with-nas.html"><i class="fa fa-check"></i>In order to properly count the number of missing values, replace blanks with NAs</a></li>
+<li class="chapter" data-level="" data-path="i-always-do-this-just-in-case..html"><a href="i-always-do-this-just-in-case..html"><i class="fa fa-check"></i>I always do this just in case.</a></li>
+<li class="chapter" data-level="" data-path="make-sure-there-are-no-species-name-duplications..html"><a href="make-sure-there-are-no-species-name-duplications..html"><i class="fa fa-check"></i>Make sure there are no species name duplications.</a></li>
+<li class="chapter" data-level="" data-path="note-that-using-the-sum-function-on-logical-vector-will-count-the-number-of-true-values..html"><a href="note-that-using-the-sum-function-on-logical-vector-will-count-the-number-of-true-values..html"><i class="fa fa-check"></i>Note that using the sum() function on logical vector will count the number of TRUE values.</a></li>
+<li class="chapter" data-level="" data-path="are-there-any-species-that-dont-have-any-data.html"><a href="are-there-any-species-that-dont-have-any-data.html"><i class="fa fa-check"></i>Are there any species that don’t have ANY data?</a></li>
+<li class="chapter" data-level="" data-path="working-with-different-data-types.--.html"><a href="working-with-different-data-types.--.html"><i class="fa fa-check"></i>Working with different data types. —-</a></li>
+<li class="chapter" data-level="" data-path="lets-try-to-understand-the-type-of-data-we-are-working-with..html"><a href="lets-try-to-understand-the-type-of-data-we-are-working-with..html"><i class="fa fa-check"></i>Let’s try to understand the type of data we are working with.</a></li>
+<li class="chapter" data-level="" data-path="first-lets-id-which-columns-are-taxonomic-information-so-we-dont-include-them-in-our-summary-stats..html"><a href="first-lets-id-which-columns-are-taxonomic-information-so-we-dont-include-them-in-our-summary-stats..html"><i class="fa fa-check"></i>First, let’s ID which columns are taxonomic information so we don’t include them in our summary stats.</a></li>
+<li class="chapter" data-level="" data-path="the-rest-are-traits.html"><a href="the-rest-are-traits.html"><i class="fa fa-check"></i>The rest are traits</a></li>
+<li class="chapter" data-level="" data-path="check-the-classes-of-the-traits..html"><a href="check-the-classes-of-the-traits..html"><i class="fa fa-check"></i>Check the classes of the traits.</a></li>
+<li class="chapter" data-level="" data-path="lets-id-which-traits-are-numerical-and-which-are-categorical..html"><a href="lets-id-which-traits-are-numerical-and-which-are-categorical..html"><i class="fa fa-check"></i>Let’s ID which traits are numerical and which are categorical.</a></li>
+<li class="chapter" data-level="" data-path="wait-something-doesnt-seem-right...html"><a href="wait-something-doesnt-seem-right...html"><i class="fa fa-check"></i>Wait! Something doesn’t seem right..!</a></li>
+<li class="chapter" data-level="" data-path="the-column-has-strings-mixed-with-numbers-which-returns-a-character-vector..html"><a href="the-column-has-strings-mixed-with-numbers-which-returns-a-character-vector..html"><i class="fa fa-check"></i>The column has strings mixed with numbers, which returns a character vector.</a></li>
+<li class="chapter" data-level="" data-path="we-should-replace-the-strings-with-nas..html"><a href="we-should-replace-the-strings-with-nas..html"><i class="fa fa-check"></i>We should replace the strings with NAs.</a></li>
+<li class="chapter" data-level="" data-path="here-we-are-using-regex-to-match-any-letter-and-then-replacing-the-matches-with-nas..html"><a href="here-we-are-using-regex-to-match-any-letter-and-then-replacing-the-matches-with-nas..html"><i class="fa fa-check"></i>Here, we are using regex to match any letter and then replacing the matches with NAs.</a></li>
+<li class="chapter" data-level="" data-path="change-both-traits-to-numeric..html"><a href="change-both-traits-to-numeric..html"><i class="fa fa-check"></i>Change both traits to numeric.</a></li>
+<li class="chapter" data-level="" data-path="note-here-i-am-using-lapply-to-apply-the-function-for-the-columns-of-dftraits..html"><a href="note-here-i-am-using-lapply-to-apply-the-function-for-the-columns-of-dftraits..html"><i class="fa fa-check"></i>Note here I am using lapply to apply the function for the columns of dfTraits.</a></li>
+<li class="chapter" data-level="" data-path="note-lapply-returns-a-list-sapply-returns-a-vector.-map-would-be-the-tidyverse-equivalent-of-apply-lapply-sapply-etc.-functions..html"><a href="note-lapply-returns-a-list-sapply-returns-a-vector.-map-would-be-the-tidyverse-equivalent-of-apply-lapply-sapply-etc.-functions..html"><i class="fa fa-check"></i>Note: lapply returns a list, sapply returns a vector. “map” would be the tidyverse equivalent of apply, lapply, sapply, etc. functions.</a></li>
+<li class="chapter" data-level="" data-path="lets-try-iding-our-numerical-traits-again..html"><a href="lets-try-iding-our-numerical-traits-again..html"><i class="fa fa-check"></i>Let’s try IDing our numerical traits again.</a></li>
+<li class="chapter" data-level="" data-path="subset-the-column-names-using-indexing..html"><a href="subset-the-column-names-using-indexing..html"><i class="fa fa-check"></i>Subset the column names using indexing.</a></li>
+<li class="chapter" data-level="" data-path="get-the-categorical-traits..html"><a href="get-the-categorical-traits..html"><i class="fa fa-check"></i>Get the categorical traits.</a></li>
+<li class="chapter" data-level="" data-path="convert-character-to-factor-because-this-is-helpful-for-summary-stats-and-plotting..html"><a href="convert-character-to-factor-because-this-is-helpful-for-summary-stats-and-plotting..html"><i class="fa fa-check"></i>Convert character to factor because this is helpful for summary stats and plotting.</a></li>
+<li class="chapter" data-level="" data-path="it-is-also-the-data-class-that-regression-models-require-for-categorical-variables..html"><a href="it-is-also-the-data-class-that-regression-models-require-for-categorical-variables..html"><i class="fa fa-check"></i>It is also the data class that regression models require for categorical variables.</a></li>
+<li class="chapter" data-level="" data-path="one-last-check..html"><a href="one-last-check..html"><i class="fa fa-check"></i>One last check.</a></li>
+<li class="chapter" data-level="" data-path="summary-stats.--.html"><a href="summary-stats.--.html"><i class="fa fa-check"></i>Summary stats. —-</a></li>
+<li class="chapter" data-level="" data-path="some-base-r-summary-statistics-to-get-a-quick-look-at-your-data..html"><a href="some-base-r-summary-statistics-to-get-a-quick-look-at-your-data..html"><i class="fa fa-check"></i>Some base R summary statistics to get a quick look at your data.</a></li>
+<li class="chapter" data-level="" data-path="time-for-some-tidyverse-magic.html"><a href="time-for-some-tidyverse-magic.html"><i class="fa fa-check"></i>Time for some tidyverse magic!</a></li>
+<li class="chapter" data-level="" data-path="use-of-the-tidyverse-pipe-avoids-us-having-to-create-several-interim-variables-while-also-improving-readability..html"><a href="use-of-the-tidyverse-pipe-avoids-us-having-to-create-several-interim-variables-while-also-improving-readability..html"><i class="fa fa-check"></i>Use of the tidyverse pipe avoids us having to create several interim variables while also improving readability.</a></li>
+<li class="chapter" data-level="" data-path="say-we-only-wanted-to-keep-extant-species.html"><a href="say-we-only-wanted-to-keep-extant-species.html"><i class="fa fa-check"></i>Say we only wanted to keep extant species:</a></li>
+<li class="chapter" data-level="" data-path="remove-trait-from-cattraits..html"><a href="remove-trait-from-cattraits..html"><i class="fa fa-check"></i>Remove trait from catTraits.</a></li>
+<li class="chapter" data-level="" data-path="other-summary-info..html"><a href="other-summary-info..html"><i class="fa fa-check"></i>Other summary info.</a></li>
+<li class="chapter" data-level="" data-path="how-many-families-do-we-have.html"><a href="how-many-families-do-we-have.html"><i class="fa fa-check"></i>How many families do we have?</a></li>
+<li class="chapter" data-level="" data-path="top-10-families-with-most-species..html"><a href="top-10-families-with-most-species..html"><i class="fa fa-check"></i>Top 10 Families with most species.</a></li>
+<li class="chapter" data-level="" data-path="you-can-sort-by-increasing-or-decreasing-number-of-species..html"><a href="you-can-sort-by-increasing-or-decreasing-number-of-species..html"><i class="fa fa-check"></i>You can sort by increasing or decreasing number of species.</a></li>
+<li class="chapter" data-level="" data-path="doing-the-same-thing-but-with-tidyverse-syntax.html"><a href="doing-the-same-thing-but-with-tidyverse-syntax.html"><i class="fa fa-check"></i>Doing the same thing, but with tidyverse syntax</a></li>
+<li class="chapter" data-level="" data-path="sample-size-number-of-complete-observations-for-this-trait.html"><a href="sample-size-number-of-complete-observations-for-this-trait.html"><i class="fa fa-check"></i>Sample size (number of complete observations for this trait)</a></li>
+<li class="chapter" data-level="" data-path="mean-of-the-data.html"><a href="mean-of-the-data.html"><i class="fa fa-check"></i>Mean of the data</a></li>
+<li class="chapter" data-level="" data-path="range-of-the-data.html"><a href="range-of-the-data.html"><i class="fa fa-check"></i>Range of the data</a></li>
+<li class="chapter" data-level="" data-path="proportion-of-nas.html"><a href="proportion-of-nas.html"><i class="fa fa-check"></i>Proportion of NAs</a></li>
+<li class="chapter" data-level="" data-path="to-speed-things-up-lapply-these-to-all-of-the-numerical-traits-using-an-anonymous-function..html"><a href="to-speed-things-up-lapply-these-to-all-of-the-numerical-traits-using-an-anonymous-function..html"><i class="fa fa-check"></i>To speed things up, (l)apply these to all of the numerical traits using an anonymous function.</a></li>
+<li class="chapter" data-level="" data-path="an-anonymous-function-is-a-function-without-a-name-that-you-really-only-need-temporarily.html"><a href="an-anonymous-function-is-a-function-without-a-name-that-you-really-only-need-temporarily.html"><i class="fa fa-check"></i>An anonymous function is a function without a name that you really only need temporarily</a></li>
+<li class="chapter" data-level="" data-path="e.g.-within-the-confines-of-this-lapply-call..html"><a href="e.g.-within-the-confines-of-this-lapply-call..html"><i class="fa fa-check"></i>e.g., within the confines of this lapply call.</a></li>
+<li class="chapter" data-level="" data-path="view-the-first-element-of-the-list..html"><a href="view-the-first-element-of-the-list..html"><i class="fa fa-check"></i>View the first element of the list.</a></li>
+<li class="chapter" data-level="" data-path="bind-list-of-dataframes-together-by-using-the-do.call-function..html"><a href="bind-list-of-dataframes-together-by-using-the-do.call-function..html"><i class="fa fa-check"></i>Bind list of dataframes together by using the do.call() function.</a></li>
+<li class="chapter" data-level="" data-path="this-lets-you-rbind-the-entire-list-of-dataframes..html"><a href="this-lets-you-rbind-the-entire-list-of-dataframes..html"><i class="fa fa-check"></i>This lets you rbind() the entire list of dataframes.</a></li>
+<li class="chapter" data-level="" data-path="do-the-same-thing-for-the-categorical-data..html"><a href="do-the-same-thing-for-the-categorical-data..html"><i class="fa fa-check"></i>Do the same thing for the categorical data.</a></li>
+<li class="chapter" data-level="" data-path="bind-together-list..html"><a href="bind-together-list..html"><i class="fa fa-check"></i>Bind together list.</a></li>
+<li class="chapter" data-level="" data-path="tidyverse-has-handy-functions-for-getting-summary-data-by-group..html"><a href="tidyverse-has-handy-functions-for-getting-summary-data-by-group..html"><i class="fa fa-check"></i>Tidyverse has handy functions for getting summary data by group.</a></li>
+<li class="chapter" data-level="" data-path="for-example-if-we-wanted-to-get-summary-information-grouped-by-family.html"><a href="for-example-if-we-wanted-to-get-summary-information-grouped-by-family.html"><i class="fa fa-check"></i>For example, if we wanted to get summary information grouped by family:</a></li>
+<li class="chapter" data-level="" data-path="lets-add-some-info-on-other-traits.html"><a href="lets-add-some-info-on-other-traits.html"><i class="fa fa-check"></i>Let’s add some info on other traits</a></li>
+<li class="chapter" data-level="" data-path="exploratory-plots.--.html"><a href="exploratory-plots.--.html"><i class="fa fa-check"></i>Exploratory plots. —-</a></li>
+<li class="chapter" data-level="" data-path="lets-perform-some-data-visualization-to-identify-patterns-and-variable-associations-in-our-dataset..html"><a href="lets-perform-some-data-visualization-to-identify-patterns-and-variable-associations-in-our-dataset..html"><i class="fa fa-check"></i>Let’s perform some data visualization to identify patterns and variable associations in our dataset.</a></li>
+<li class="chapter" data-level="" data-path="base-r-histograms-for-numerical-traits.html"><a href="base-r-histograms-for-numerical-traits.html"><i class="fa fa-check"></i>Base R histograms for numerical traits</a></li>
+<li class="chapter" data-level="" data-path="ggplot-to-beautify-the-data.html"><a href="ggplot-to-beautify-the-data.html"><i class="fa fa-check"></i>ggplot to beautify the data</a></li>
+<li class="chapter" data-level="" data-path="ggplot-is-a-very-powerful-tool-for-visualizing-data-but-you-need-to-get-used-to-the-syntax.html"><a href="ggplot-is-a-very-powerful-tool-for-visualizing-data-but-you-need-to-get-used-to-the-syntax.html"><i class="fa fa-check"></i>ggplot is a very powerful tool for visualizing data but you need to get used to the syntax</a></li>
+<li class="chapter" data-level="" data-path="barplot-for-categorical-traits.html"><a href="barplot-for-categorical-traits.html"><i class="fa fa-check"></i>barplot for categorical traits</a></li>
+<li class="chapter" data-level="" data-path="ggplot-version.html"><a href="ggplot-version.html"><i class="fa fa-check"></i>ggplot version</a></li>
+<li class="chapter" data-level="" data-path="get-rid-of-those-pesky-nas-for-plotting.html"><a href="get-rid-of-those-pesky-nas-for-plotting.html"><i class="fa fa-check"></i>Get rid of those pesky NAs for plotting</a></li>
+<li class="chapter" data-level="" data-path="relationships-between-numerical-variables.html"><a href="relationships-between-numerical-variables.html"><i class="fa fa-check"></i>Relationships between numerical variables</a></li>
+<li class="chapter" data-level="" data-path="correlations.html"><a href="correlations.html"><i class="fa fa-check"></i>Correlations</a></li>
+<li class="chapter" data-level="" data-path="ranges-from--1-to-1-and-gives-insight-about-the-strength-of-pairwise-relationships.html"><a href="ranges-from--1-to-1-and-gives-insight-about-the-strength-of-pairwise-relationships.html"><i class="fa fa-check"></i>Ranges from -1 to 1 and gives insight about the strength of pairwise relationships</a></li>
+<li class="chapter" data-level="" data-path="test-for-significant-association-between-two-traits.html"><a href="test-for-significant-association-between-two-traits.html"><i class="fa fa-check"></i>Test for significant association between two traits</a></li>
+<li class="chapter" data-level="" data-path="the-output-tells-us-there-is-a-statistically-significant-correlation-p-value-0.05-between-these-two-variables..html"><a href="the-output-tells-us-there-is-a-statistically-significant-correlation-p-value-0.05-between-these-two-variables..html"><i class="fa fa-check"></i>The output tells us there is a statistically significant correlation (p-value &lt; 0.05) between these two variables.</a></li>
+<li class="chapter" data-level="" data-path="quick-ggplot-to-see-relationship.html"><a href="quick-ggplot-to-see-relationship.html"><i class="fa fa-check"></i>Quick ggplot to see relationship</a></li>
+<li class="chapter" data-level="" data-path="are-these-data-normally-distributed-we-can-check-this-using-qq-plots..html"><a href="are-these-data-normally-distributed-we-can-check-this-using-qq-plots..html"><i class="fa fa-check"></i>Are these data normally distributed? We can check this using QQ plots.</a></li>
+<li class="chapter" data-level="" data-path="let-see-if-we-can-use-a-log-transformation-to-make-our-data-resemble-a-normal-distribution.html"><a href="let-see-if-we-can-use-a-log-transformation-to-make-our-data-resemble-a-normal-distribution.html"><i class="fa fa-check"></i>Let’ see if we can use a log-transformation to make our data resemble a normal distribution</a></li>
+<li class="chapter" data-level="" data-path="if-you-wanted-to-keep-the-original-data-in-your-dataset-you-could-use-the-mutate-function-to-create-a-new-column-with-the-log-transformed-data.html"><a href="if-you-wanted-to-keep-the-original-data-in-your-dataset-you-could-use-the-mutate-function-to-create-a-new-column-with-the-log-transformed-data.html"><i class="fa fa-check"></i>If you wanted to keep the original data in your dataset, you could use the mutate function to create a new column with the log-transformed data</a></li>
+<li class="chapter" data-level="" data-path="plot-the-transformed-data..html"><a href="plot-the-transformed-data..html"><i class="fa fa-check"></i>Plot the transformed data.</a></li>
+<li class="chapter" data-level="" data-path="note-i-placed-the-x-and-y-variables-in-the-ggplot-argument-here-so-i-dont-have-to-do-it-twice-for-both-geom_point-and-geom_smooth.html"><a href="note-i-placed-the-x-and-y-variables-in-the-ggplot-argument-here-so-i-dont-have-to-do-it-twice-for-both-geom_point-and-geom_smooth.html"><i class="fa fa-check"></i>Note I placed the x and y variables in the ggplot argument here so I don’t have to do it twice for both geom_point and geom_smooth</a></li>
+<li class="chapter" data-level="" data-path="boxplots-to-show-distributions-of-svl-by-iucn-redlist-assessment.html"><a href="boxplots-to-show-distributions-of-svl-by-iucn-redlist-assessment.html"><i class="fa fa-check"></i>Boxplots to show distributions of SVL by IUCN redlist assessment</a></li>
+<li class="chapter" data-level="" data-path="associations-between-categorical-variables..html"><a href="associations-between-categorical-variables..html"><i class="fa fa-check"></i>Associations between categorical variables.</a></li>
+<li class="chapter" data-level="" data-path="based-on-this-you-may-ask-yourself-what-variablesrelationships-you-want-to-explore-further-and-which-you-could-possibly-remove-from-your-dataset..html"><a href="based-on-this-you-may-ask-yourself-what-variablesrelationships-you-want-to-explore-further-and-which-you-could-possibly-remove-from-your-dataset..html"><i class="fa fa-check"></i>Based on this, you may ask yourself what variables/relationships you want to explore further and which you could possibly remove from your dataset.</a></li>
+<li class="chapter" data-level="" data-path="outlier-detection.--.html"><a href="outlier-detection.--.html"><i class="fa fa-check"></i>Outlier detection. —-</a></li>
+<li class="chapter" data-level="" data-path="remember-those-really-long-species-lets-look-at-them-a-bit-more-closely-but-this-time-we-will-group-by-family-and-highlight-outliers-using-the-outlier-arguments-available-in-geom_boxplot..html"><a href="remember-those-really-long-species-lets-look-at-them-a-bit-more-closely-but-this-time-we-will-group-by-family-and-highlight-outliers-using-the-outlier-arguments-available-in-geom_boxplot..html"><i class="fa fa-check"></i>Remember those really long species? Let’s look at them a bit more closely! But this time, we will group by family and highlight outliers using the outlier arguments available in geom_boxplot.</a></li>
+<li class="chapter" data-level="" data-path="boxplots-to-show-distributions-of-maximum-svl-by-family.html"><a href="boxplots-to-show-distributions-of-maximum-svl-by-family.html"><i class="fa fa-check"></i>Boxplots to show distributions of maximum SVL by family</a></li>
+<li class="chapter" data-level="" data-path="you-can-see-the-outliers-are-a-part-of-the-varanidae-family..html"><a href="you-can-see-the-outliers-are-a-part-of-the-varanidae-family..html"><i class="fa fa-check"></i>You can see the outliers are a part of the Varanidae family.</a></li>
+<li class="chapter" data-level="" data-path="using-the-interquartile-method-to-identify-outliers..html"><a href="using-the-interquartile-method-to-identify-outliers..html"><i class="fa fa-check"></i>Using the interquartile method to identify outliers.</a></li>
+<li class="chapter" data-level="" data-path="determine-the-1st-quartile-using-the-quantile-function..html"><a href="determine-the-1st-quartile-using-the-quantile-function..html"><i class="fa fa-check"></i>Determine the 1st quartile using the quantile function.</a></li>
+<li class="chapter" data-level="" data-path="determine-the-3rd-quartile-using-the-quantile-function..html"><a href="determine-the-3rd-quartile-using-the-quantile-function..html"><i class="fa fa-check"></i>Determine the 3rd quartile using the quantile function.</a></li>
+<li class="chapter" data-level="" data-path="calculate-the-iqr-by-subtracting-the-1st-quartile-from-the-3rd-quartile..html"><a href="calculate-the-iqr-by-subtracting-the-1st-quartile-from-the-3rd-quartile..html"><i class="fa fa-check"></i>Calculate the IQR by subtracting the 1st quartile from the 3rd quartile.</a></li>
+<li class="chapter" data-level="" data-path="calculate-our-upper-threshold-3-x-the-iqr-upperquantile..html"><a href="calculate-our-upper-threshold-3-x-the-iqr-upperquantile..html"><i class="fa fa-check"></i>Calculate our upper threshold ((3 x the IQR) + upperQuantile).</a></li>
+<li class="chapter" data-level="" data-path="identify-outliers-based-on-whether-they-exceed-the-upper-threshold..html"><a href="identify-outliers-based-on-whether-they-exceed-the-upper-threshold..html"><i class="fa fa-check"></i>Identify outliers based on whether they exceed the upper threshold.</a></li>
+<li class="chapter" data-level="" data-path="subset-the-outliers-with-taxonomic-information..html"><a href="subset-the-outliers-with-taxonomic-information..html"><i class="fa fa-check"></i>Subset the outliers with taxonomic information.</a></li>
+<li class="chapter" data-level="" data-path="dimensionality-reduction.--.html"><a href="dimensionality-reduction.--.html"><i class="fa fa-check"></i>Dimensionality reduction. —-</a></li>
+<li class="chapter" data-level="" data-path="if-you-have-a-high-dimensional-dataset-you-may-think-about-using-pca-to-make-your-data-more-manageable..html"><a href="if-you-have-a-high-dimensional-dataset-you-may-think-about-using-pca-to-make-your-data-more-manageable..html"><i class="fa fa-check"></i>If you have a high dimensional dataset, you may think about using PCA to make your data more manageable.</a></li>
+<li class="chapter" data-level="" data-path="principal-component-analysis-example..html"><a href="principal-component-analysis-example..html"><i class="fa fa-check"></i>Principal component analysis example.</a></li>
+<li class="chapter" data-level="" data-path="create-a-data-subset-for-pca-analysis..html"><a href="create-a-data-subset-for-pca-analysis..html"><i class="fa fa-check"></i>Create a data subset for PCA analysis.</a></li>
+<li class="chapter" data-level="" data-path="perform-pca-analysis-using-prcomp..html"><a href="perform-pca-analysis-using-prcomp..html"><i class="fa fa-check"></i>Perform PCA analysis using prcomp.</a></li>
+<li class="chapter" data-level="" data-path="standard-deviations-for-each-principal-component..html"><a href="standard-deviations-for-each-principal-component..html"><i class="fa fa-check"></i>Standard deviations for each principal component.</a></li>
+<li class="chapter" data-level="" data-path="the-columns-here-are-eigenvectors-that-correspond-to-each-principal-component-tells-you-how-much-each-variable-contributes-to-the-component.html"><a href="the-columns-here-are-eigenvectors-that-correspond-to-each-principal-component-tells-you-how-much-each-variable-contributes-to-the-component.html"><i class="fa fa-check"></i>The columns here are eigenvectors that correspond to each principal component, tells you how much each variable contributes to the component</a></li>
+<li class="chapter" data-level="" data-path="the-transformed-variables-in-the-pca-space..html"><a href="the-transformed-variables-in-the-pca-space..html"><i class="fa fa-check"></i>The transformed variables in the PCA space.</a></li>
+<li class="chapter" data-level="" data-path="how-much-variance-is-explained-by-each-of-the-components.html"><a href="how-much-variance-is-explained-by-each-of-the-components.html"><i class="fa fa-check"></i>How much variance is explained by each of the components?</a></li>
+<li class="chapter" data-level="" data-path="this-plot-shows-the-percentage-of-variance-explained-by-each-of-the-components..html"><a href="this-plot-shows-the-percentage-of-variance-explained-by-each-of-the-components..html"><i class="fa fa-check"></i>This plot shows the percentage of variance explained by each of the components.</a></li>
+<li class="chapter" data-level="" data-path="this-plot-visualizes-both-the-principal-components-and-the-original-variables..html"><a href="this-plot-visualizes-both-the-principal-components-and-the-original-variables..html"><i class="fa fa-check"></i>This plot visualizes both the principal components and the original variables.</a></li>
+<li class="chapter" data-level="" data-path="longer-arrows-indicate-greater-contribution.html"><a href="longer-arrows-indicate-greater-contribution.html"><i class="fa fa-check"></i>Longer arrows indicate greater contribution</a></li>
+<li class="chapter" data-level="" data-path="next-step-would-be-to-extract-the-components-to-use-in-an-analysis-down-the-road-covered-in-later-modules.html"><a href="next-step-would-be-to-extract-the-components-to-use-in-an-analysis-down-the-road-covered-in-later-modules.html"><i class="fa fa-check"></i>Next step would be to extract the components to use in an analysis down the road (covered in later modules)</a></li>
+<li class="chapter" data-level="" data-path="from-here-keep-the-variables-you-are-interested-in-exploring-for-your-analysis..html"><a href="from-here-keep-the-variables-you-are-interested-in-exploring-for-your-analysis..html"><i class="fa fa-check"></i>From here, keep the variables you are interested in exploring for your analysis.</a></li>
+<li class="chapter" data-level="" data-path="but-beware-imputation-prep-is-next-and-its-not-so-forgiving.html"><a href="but-beware-imputation-prep-is-next-and-its-not-so-forgiving.html"><i class="fa fa-check"></i>But beware! Imputation prep is next, and it’s not so forgiving!</a></li>
+<li class="chapter" data-level="" data-path="write-dataset-to-file-for-next-module..html"><a href="write-dataset-to-file-for-next-module..html"><i class="fa fa-check"></i>Write dataset to file for next module.</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Canadian Centre for Computational Genomics logo.">
+<br><br>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="an-anonymous-function-is-a-function-without-a-name-that-you-really-only-need-temporarily" class="section level1 hasAnchor">
+<h1>An anonymous function is a function without a name that you really only need temporarily<a href="an-anonymous-function-is-a-function-without-a-name-that-you-really-only-need-temporarily.html#an-anonymous-function-is-a-function-without-a-name-that-you-really-only-need-temporarily" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="to-speed-things-up-lapply-these-to-all-of-the-numerical-traits-using-an-anonymous-function..html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="e.g.-within-the-confines-of-this-lapply-call..html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cbw-dev/STAT_2024/blob/main/010-module-1.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

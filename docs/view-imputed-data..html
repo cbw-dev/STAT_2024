@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>View imputed data. | Help! What Statistical Model Should I Use? 2024</title>
+  <meta name="description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="generator" content="bookdown 0.43 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="View imputed data. | Help! What Statistical Model Should I Use? 2024" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+  <meta property="og:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="github-repo" content="cbw-dev/STAT_2024" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="View imputed data. | Help! What Statistical Model Should I Use? 2024" />
+  
+  <meta name="twitter:description" content="Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop" />
+  <meta name="twitter:image" content="https://cbw-dev.github.io/STAT_2024/img/bioinformatics_logo.png" />
+
+<meta name="author" content="Faculty: Patrick McMillan, Alysha Cooper, Jacqueline May" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+<link rel="prev" href="what-variables-were-used-as-predictors-you-can-alter-this-matrix.html"/>
+<link rel="next" href="if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<a href="https://bioinformaticsdotca.github.io/">
+ <img src="img/bioinformatics_logo.png" width="90%" alt="bioinformatics.ca logo" style="display:block; margin-left:auto; margin-right:auto; margin-top:15px;">
+ </a>
+<li><center><strong><a href="./"><br>Help! What Statistical Model Should I Use?<br><br></a></strong></center></li>
+<a href="./">
+ <img src="img/STAT_2024_icon.png" width="70%" alt="Help! What Statistical Model Should I Use? logo" style="display:block; margin-left:auto; margin-right:auto; ">
+ </a>
+<br>
+
+<li class="divider"></li>
+<li class="part"><span><b>I Introduction</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Workshop Info</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i>Schedule</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#pre-work"><i class="fa fa-check"></i>Pre-work</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="meet-your-faculty.html"><a href="meet-your-faculty.html"><i class="fa fa-check"></i>Meet Your Faculty</a></li>
+<li class="chapter" data-level="" data-path="data-and-compute-setup.html"><a href="data-and-compute-setup.html"><i class="fa fa-check"></i>Data and Compute Setup</a></li>
+<li class="part"><span><b>II Modules</b></span></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html"><i class="fa fa-check"></i>Module 1: Data Cleaning and Exploration Review</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lecture"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#lab"><i class="fa fa-check"></i>Lab</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#load-libraries.--"><i class="fa fa-check"></i>Load libraries. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#read-in-data.--"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#looking-at-your-data.--"><i class="fa fa-check"></i>Looking at your data. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#exploratory-plots.--"><i class="fa fa-check"></i>Exploratory plots. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#outlier-detection.--"><i class="fa fa-check"></i>Outlier detection. —-</a></li>
+<li class="chapter" data-level="" data-path="module-1-data-cleaning-and-exploration-review.html"><a href="module-1-data-cleaning-and-exploration-review.html#dimensionality-reduction.--"><i class="fa fa-check"></i>Dimensionality reduction. —-</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html"><i class="fa fa-check"></i>Module 2: Dealing with Missingness</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lecture-1"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-2-dealing-with-missingness.html"><a href="module-2-dealing-with-missingness.html#lab-1"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="load-libraries.---1.html"><a href="load-libraries.---1.html"><i class="fa fa-check"></i>Load libraries. —-</a></li>
+<li class="chapter" data-level="" data-path="read-in-data.---1.html"><a href="read-in-data.---1.html"><i class="fa fa-check"></i>Read in data. —-</a></li>
+<li class="chapter" data-level="" data-path="read-in-trait-dataset-we-cleaned-in-the-last-module..html"><a href="read-in-trait-dataset-we-cleaned-in-the-last-module..html"><i class="fa fa-check"></i>Read in trait dataset we cleaned in the last module.</a></li>
+<li class="chapter" data-level="" data-path="identify-the-taxonomy-columns..html"><a href="identify-the-taxonomy-columns..html"><i class="fa fa-check"></i>Identify the taxonomy columns.</a></li>
+<li class="chapter" data-level="" data-path="missing-data-exploration.--.html"><a href="missing-data-exploration.--.html"><i class="fa fa-check"></i>Missing data exploration. —-</a></li>
+<li class="chapter" data-level="" data-path="lets-make-a-dataframe-for-plotting..html"><a href="lets-make-a-dataframe-for-plotting..html"><i class="fa fa-check"></i>Let’s make a dataframe for plotting.</a></li>
+<li class="chapter" data-level="" data-path="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><a href="note-it-can-help-to-make-interim-variables-when-you-are-trying-to-understand-or-debug-code.-one-of-the-downsides-of-the-tidyverse-pipe.html"><i class="fa fa-check"></i>Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!</a></li>
+<li class="chapter" data-level="" data-path="ggplot-for-missingness-visualization.html"><a href="ggplot-for-missingness-visualization.html"><i class="fa fa-check"></i>ggplot for missingness visualization</a></li>
+<li class="chapter" data-level="" data-path="using-the-package-naniar-to-visualize-missing-data..html"><a href="using-the-package-naniar-to-visualize-missing-data..html"><i class="fa fa-check"></i>Using the package “naniar” to visualize missing data.</a></li>
+<li class="chapter" data-level="" data-path="clustering-by-missingness-may-help-you-see-patterns.html"><a href="clustering-by-missingness-may-help-you-see-patterns.html"><i class="fa fa-check"></i>Clustering by missingness may help you see patterns</a></li>
+<li class="chapter" data-level="" data-path="upset-plots-to-identify-missingness-combinations..html"><a href="upset-plots-to-identify-missingness-combinations..html"><i class="fa fa-check"></i>Upset plots to identify missingness combinations.</a></li>
+<li class="chapter" data-level="" data-path="heres-the-kicker-how-many-species-do-we-lose-if-we-use-complete-case-observations.html"><a href="heres-the-kicker-how-many-species-do-we-lose-if-we-use-complete-case-observations.html"><i class="fa fa-check"></i>Here’s the kicker! How many species do we lose if we use complete case observations?</a></li>
+<li class="chapter" data-level="" data-path="imputation-prep.--.html"><a href="imputation-prep.--.html"><i class="fa fa-check"></i>Imputation prep. —-</a></li>
+<li class="chapter" data-level="" data-path="only-some-traits-are-amenable-to-imputation-and-we-need-to-do-some-more-preprocessing-before-we-impute-our-values..html"><a href="only-some-traits-are-amenable-to-imputation-and-we-need-to-do-some-more-preprocessing-before-we-impute-our-values..html"><i class="fa fa-check"></i>Only some traits are amenable to imputation and we need to do some more preprocessing before we impute our values.</a></li>
+<li class="chapter" data-level="" data-path="imputing-traits-with-high-proportions-of-missingness-could-be-problematic.-based-on-our-visualizations-lets-set-a-threshold-of-60-missingness-as-our-cutoff..html"><a href="imputing-traits-with-high-proportions-of-missingness-could-be-problematic.-based-on-our-visualizations-lets-set-a-threshold-of-60-missingness-as-our-cutoff..html"><i class="fa fa-check"></i>Imputing traits with high proportions of missingness could be problematic. Based on our visualizations, let’s set a threshold of 60% missingness as our cutoff.</a></li>
+<li class="chapter" data-level="" data-path="update-our-trait-vectors..html"><a href="update-our-trait-vectors..html"><i class="fa fa-check"></i>Update our trait vectors.</a></li>
+<li class="chapter" data-level="" data-path="visualize-the-missingness-of-our-subset.-this-also-gives-you-an-idea-of-which-combination-of-traits-would-give-you-the-largest-complete-case-dataset..html"><a href="visualize-the-missingness-of-our-subset.-this-also-gives-you-an-idea-of-which-combination-of-traits-would-give-you-the-largest-complete-case-dataset..html"><i class="fa fa-check"></i>Visualize the missingness of our subset. This also gives you an idea of which combination of traits would give you the largest complete-case dataset.</a></li>
+<li class="chapter" data-level="" data-path="imputation-methods-can-be-sensitive-to-class-imbalance-issues-as-some-categories-may-be-over-or-underrepresented..html"><a href="imputation-methods-can-be-sensitive-to-class-imbalance-issues-as-some-categories-may-be-over-or-underrepresented..html"><i class="fa fa-check"></i>Imputation methods can be sensitive to class imbalance issues, as some categories may be over or underrepresented.</a></li>
+<li class="chapter" data-level="" data-path="lets-check-our-categorical-traits-for-severe-class-imbalances-or-lack-of-variation-or-just-for-categories-we-should-fix-in-general..html"><a href="lets-check-our-categorical-traits-for-severe-class-imbalances-or-lack-of-variation-or-just-for-categories-we-should-fix-in-general..html"><i class="fa fa-check"></i>Let’s check our categorical traits for severe class imbalances or lack of variation or just for categories we should fix in general.</a></li>
+<li class="chapter" data-level="" data-path="look-at-diet.-herbivorous-is-a-minor-category.-we-check-if-this-category-makes-up-more-than-10-of-the-observed-data..html"><a href="look-at-diet.-herbivorous-is-a-minor-category.-we-check-if-this-category-makes-up-more-than-10-of-the-observed-data..html"><i class="fa fa-check"></i>Look at diet. “Herbivorous” is a minor category. We check if this category makes up more than 10% of the observed data.</a></li>
+<li class="chapter" data-level="" data-path="check-distributions-of-numerical-traits-once-more..html"><a href="check-distributions-of-numerical-traits-once-more..html"><i class="fa fa-check"></i>Check distributions of numerical traits once more.</a></li>
+<li class="chapter" data-level="" data-path="finally-lets-ensure-we-have-the-correct-data-classes..html"><a href="finally-lets-ensure-we-have-the-correct-data-classes..html"><i class="fa fa-check"></i>Finally, let’s ensure we have the correct data classes.</a></li>
+<li class="chapter" data-level="" data-path="missingness-simulation.--.html"><a href="missingness-simulation.--.html"><i class="fa fa-check"></i>Missingness simulation. —-</a></li>
+<li class="chapter" data-level="" data-path="the-first-thing-we-are-going-to-do-is-make-a-complete-case-dataset..html"><a href="the-first-thing-we-are-going-to-do-is-make-a-complete-case-dataset..html"><i class="fa fa-check"></i>The first thing we are going to do is make a complete-case dataset.</a></li>
+<li class="chapter" data-level="" data-path="we-are-going-to-log-transform-our-skewed-numerical-traits-to-make-the-distributions-approximately-normal.-this-can-help-with-certain-types-of-imputation-methods-but-isnt-always-necessary..html"><a href="we-are-going-to-log-transform-our-skewed-numerical-traits-to-make-the-distributions-approximately-normal.-this-can-help-with-certain-types-of-imputation-methods-but-isnt-always-necessary..html"><i class="fa fa-check"></i>We are going to log-transform our skewed numerical traits to make the distributions approximately normal. This can help with certain types of imputation methods, but isn’t always necessary.</a></li>
+<li class="chapter" data-level="" data-path="now-set-the-seed-so-you-can-reproduce-your-results.-this-is-very-important.html"><a href="now-set-the-seed-so-you-can-reproduce-your-results.-this-is-very-important.html"><i class="fa fa-check"></i>Now, set the seed so you can reproduce your results. This is VERY important!</a></li>
+<li class="chapter" data-level="" data-path="meanmode-imputation.--.html"><a href="meanmode-imputation.--.html"><i class="fa fa-check"></i>Mean/mode imputation. —-</a></li>
+<li class="chapter" data-level="" data-path="meanmode-is-the-simplest-imputation-method-and-it-is-pretty-easy-to-do.-its-a-good-baseline-to-compare-other-methods-to..html"><a href="meanmode-is-the-simplest-imputation-method-and-it-is-pretty-easy-to-do.-its-a-good-baseline-to-compare-other-methods-to..html"><i class="fa fa-check"></i>Mean/mode is the simplest imputation method and it is pretty easy to do. It’s a good baseline to compare other methods to.</a></li>
+<li class="chapter" data-level="" data-path="make-a-copy-of-dfmissing..html"><a href="make-a-copy-of-dfmissing..html"><i class="fa fa-check"></i>Make a copy of dfMissing.</a></li>
+<li class="chapter" data-level="" data-path="impute-traits-with-mean-for-numerical-traits-and-mode-for-categorical-traits..html"><a href="impute-traits-with-mean-for-numerical-traits-and-mode-for-categorical-traits..html"><i class="fa fa-check"></i>Impute traits with mean for numerical traits and mode for categorical traits.</a></li>
+<li class="chapter" data-level="" data-path="mean-value.html"><a href="mean-value.html"><i class="fa fa-check"></i>Mean value</a></li>
+<li class="chapter" data-level="" data-path="mode-value.html"><a href="mode-value.html"><i class="fa fa-check"></i>Mode value</a></li>
+<li class="chapter" data-level="" data-path="use-a-for-loop.html"><a href="use-a-for-loop.html"><i class="fa fa-check"></i>Use a for loop!:</a></li>
+<li class="chapter" data-level="" data-path="back-transform-the-log-transformed-data-because-we-will-need-to-compare-it-to-the-original-data-to-get-our-error-rates..html"><a href="back-transform-the-log-transformed-data-because-we-will-need-to-compare-it-to-the-original-data-to-get-our-error-rates..html"><i class="fa fa-check"></i>Back-transform the log-transformed data because we will need to compare it to the original data to get our error rates.</a></li>
+<li class="chapter" data-level="" data-path="k-nearest-neighbour-imputation--.html"><a href="k-nearest-neighbour-imputation--.html"><i class="fa fa-check"></i>K-Nearest Neighbour Imputation —-</a></li>
+<li class="chapter" data-level="" data-path="lets-try-using-knn-k-nearest-neighbour-imputation.-using-a-distance-matrix-determines-k-neighbours-that-are-closest-to-the-observation-with-missing-values.-it-then-uses-the-information-from-the-nearest-neighbours-to-fill-in-the-missing-values..html"><a href="lets-try-using-knn-k-nearest-neighbour-imputation.-using-a-distance-matrix-determines-k-neighbours-that-are-closest-to-the-observation-with-missing-values.-it-then-uses-the-information-from-the-nearest-neighbours-to-fill-in-the-missing-values..html"><i class="fa fa-check"></i>Let’s try using KNN (K-Nearest Neighbour Imputation). Using a distance matrix, determines k neighbours that are closest to the observation with missing values. It then uses the information from the nearest neighbours to fill in the missing values.</a></li>
+<li class="chapter" data-level="" data-path="data-dataframe-with-missing-values-k-number-of-nearest-neighbours-used.-rule-of-thumb-for-k-is-to-take-the-square-root-of-n-sample-size.-this-might-be-a-parameter-you-want-to-tune-however..html"><a href="data-dataframe-with-missing-values-k-number-of-nearest-neighbours-used.-rule-of-thumb-for-k-is-to-take-the-square-root-of-n-sample-size.-this-might-be-a-parameter-you-want-to-tune-however..html"><i class="fa fa-check"></i>data = dataframe with missing values, k = number of nearest neighbours used. Rule of thumb for k is to take the square root of n (sample size). This might be a parameter you want to tune, however.</a></li>
+<li class="chapter" data-level="" data-path="subset-to-only-take-the-imputed-values-and-not-the-indicator-columns..html"><a href="subset-to-only-take-the-imputed-values-and-not-the-indicator-columns..html"><i class="fa fa-check"></i>Subset to only take the imputed values and not the indicator columns.</a></li>
+<li class="chapter" data-level="" data-path="random-forest-imputation--.html"><a href="random-forest-imputation--.html"><i class="fa fa-check"></i>Random forest imputation —-</a></li>
+<li class="chapter" data-level="" data-path="builds-a-random-forest-model-using-the-observed-data-to-estimate-those-values-that-are-missing.-it-is-an-iterative-process-that-repeats-until-the-imputed-values-stabilize..html"><a href="builds-a-random-forest-model-using-the-observed-data-to-estimate-those-values-that-are-missing.-it-is-an-iterative-process-that-repeats-until-the-imputed-values-stabilize..html"><i class="fa fa-check"></i>Builds a Random Forest model using the observed data to estimate those values that are missing. It is an iterative process that repeats until the imputed values stabilize.</a></li>
+<li class="chapter" data-level="" data-path="xmix-dataframe-with-missing-values-maxiter-max-of-iterations-performed-ntree-number-of-trees-in-the-forest.html"><a href="xmix-dataframe-with-missing-values-maxiter-max-of-iterations-performed-ntree-number-of-trees-in-the-forest.html"><i class="fa fa-check"></i>xmix = dataframe with missing values, maxiter = max # of iterations performed, ntree = number of trees in the forest</a></li>
+<li class="chapter" data-level="" data-path="look-at-the-imputed-dataframe..html"><a href="look-at-the-imputed-dataframe..html"><i class="fa fa-check"></i>Look at the imputed dataframe.</a></li>
+<li class="chapter" data-level="" data-path="assign-to-dataframe..html"><a href="assign-to-dataframe..html"><i class="fa fa-check"></i>Assign to dataframe.</a></li>
+<li class="chapter" data-level="" data-path="again-back-transform-the-data..html"><a href="again-back-transform-the-data..html"><i class="fa fa-check"></i>Again, back-transform the data.</a></li>
+<li class="chapter" data-level="" data-path="mice.--.html"><a href="mice.--.html"><i class="fa fa-check"></i>MICE. —-</a></li>
+<li class="chapter" data-level="" data-path="mice-is-a-framework-for-performing-multiple-imputation.-single-imputation-is-performed-several-times-so-it-can-provides-a-measure-of-uncertainty-for-your-imputed-values.html"><a href="mice-is-a-framework-for-performing-multiple-imputation.-single-imputation-is-performed-several-times-so-it-can-provides-a-measure-of-uncertainty-for-your-imputed-values.html"><i class="fa fa-check"></i>MICE is a framework for performing multiple imputation. Single imputation is performed several times, so it can provides a measure of uncertainty for your imputed values</a></li>
+<li class="chapter" data-level="" data-path="default-methods-for-numeric-and-categorical-traits-are-predictive-mean-matching-and-logistic-regression-respectively.-but-you-can-try-different-methods-and-see-which-works-best-for-your-data..html"><a href="default-methods-for-numeric-and-categorical-traits-are-predictive-mean-matching-and-logistic-regression-respectively.-but-you-can-try-different-methods-and-see-which-works-best-for-your-data..html"><i class="fa fa-check"></i>Default methods for numeric and categorical traits are predictive mean matching and logistic regression, respectively. But you can try different methods and see which works best for your data.</a></li>
+<li class="chapter" data-level="" data-path="check-the-class..html"><a href="check-the-class..html"><i class="fa fa-check"></i>Check the class.</a></li>
+<li class="chapter" data-level="" data-path="number-of-imputed-datasets.html"><a href="number-of-imputed-datasets.html"><i class="fa fa-check"></i>Number of imputed datasets</a></li>
+<li class="chapter" data-level="" data-path="what-variables-were-used-as-predictors-you-can-alter-this-matrix.html"><a href="what-variables-were-used-as-predictors-you-can-alter-this-matrix.html"><i class="fa fa-check"></i>What variables were used as predictors (you can alter this matrix)</a></li>
+<li class="chapter" data-level="" data-path="view-imputed-data..html"><a href="view-imputed-data..html"><i class="fa fa-check"></i>View imputed data.</a></li>
+<li class="chapter" data-level="" data-path="if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example.html"><a href="if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example.html"><i class="fa fa-check"></i>If you are running a statistical analysis on data imputed using MICE, you will have to apply it to EACH of the imputed datasets. For example:</a></li>
+<li class="chapter" data-level="" data-path="fitting-a-linear-regression-to-the-multiply-imputed-datasets-using-the-with-function..html"><a href="fitting-a-linear-regression-to-the-multiply-imputed-datasets-using-the-with-function..html"><i class="fa fa-check"></i>Fitting a linear regression to the multiply imputed datasets using the with() function.</a></li>
+<li class="chapter" data-level="" data-path="what-class-is-it-1.html"><a href="what-class-is-it-1.html"><i class="fa fa-check"></i>What class is it?</a></li>
+<li class="chapter" data-level="" data-path="lets-pool-the-results-together-using-the-pool-function..html"><a href="lets-pool-the-results-together-using-the-pool-function..html"><i class="fa fa-check"></i>Let’s pool the results together using the pool function.</a></li>
+<li class="chapter" data-level="" data-path="from-the-mice-documentation-the-pool-function-combines-the-estimates-from-m-repeated-complete-data-analyses..html"><a href="from-the-mice-documentation-the-pool-function-combines-the-estimates-from-m-repeated-complete-data-analyses..html"><i class="fa fa-check"></i>From the mice documentation: “The pool() function combines the estimates from m repeated complete data analyses.”</a></li>
+<li class="chapter" data-level="" data-path="get-a-list-of-the-imputed-dataframes-using-the-micecomplete-function.-since-we-specified-all-it-will-return-us-a-list-containing-all-of-the-imputed-dataframes.-should-be-length-m..html"><a href="get-a-list-of-the-imputed-dataframes-using-the-micecomplete-function.-since-we-specified-all-it-will-return-us-a-list-containing-all-of-the-imputed-dataframes.-should-be-length-m..html"><i class="fa fa-check"></i>Get a list of the imputed dataframes using the mice::complete() function. Since we specified “all”, it will return us a list containing all of the imputed dataframes. Should be length “m”.</a></li>
+<li class="chapter" data-level="" data-path="back-transform-all-the-imputed-values-in-this-list..html"><a href="back-transform-all-the-imputed-values-in-this-list..html"><i class="fa fa-check"></i>Back-transform all the imputed values in this list.</a></li>
+<li class="chapter" data-level="" data-path="error-rates.--.html"><a href="error-rates.--.html"><i class="fa fa-check"></i>Error rates. —-</a></li>
+<li class="chapter" data-level="" data-path="lets-see-how-well-the-different-imputation-methods-predicted-the-values..html"><a href="lets-see-how-well-the-different-imputation-methods-predicted-the-values..html"><i class="fa fa-check"></i>Let’s see how well the different imputation methods predicted the values.</a>
+<ul>
+<li class="chapter" data-level="" data-path="lets-see-how-well-the-different-imputation-methods-predicted-the-values..html"><a href="lets-see-how-well-the-different-imputation-methods-predicted-the-values..html#first-back-transform-dfmissing-for-comparison-purposes"><i class="fa fa-check"></i>First back-transform dfMissing for comparison purposes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="we-can-use-did-the-missforestmixerror-function-for-obtaining-error-rates..html"><a href="we-can-use-did-the-missforestmixerror-function-for-obtaining-error-rates..html"><i class="fa fa-check"></i>We can use did the missForest::mixError() function for obtaining error rates.</a></li>
+<li class="chapter" data-level="" data-path="mixerror-is-a-useful-function-because-it-tracks-which-values-were-imputed-for-you-as-long-as-you-can-provide-it-with-the-original-and-missing-dataframes..html"><a href="mixerror-is-a-useful-function-because-it-tracks-which-values-were-imputed-for-you-as-long-as-you-can-provide-it-with-the-original-and-missing-dataframes..html"><i class="fa fa-check"></i>mixError is a useful function because it tracks which values were imputed for you, as long as you can provide it with the original and missing dataframes.</a></li>
+<li class="chapter" data-level="" data-path="nrmse-refers-to-the-normalized-root-mean-squared-error-for-the-numeric-data-and-pfc-refers-to-the-proportion-of-falsely-classified-entries-for-the-categorical-variables.-for-both-lower-is-better..html"><a href="nrmse-refers-to-the-normalized-root-mean-squared-error-for-the-numeric-data-and-pfc-refers-to-the-proportion-of-falsely-classified-entries-for-the-categorical-variables.-for-both-lower-is-better..html"><i class="fa fa-check"></i>NRMSE refers to the normalized root mean squared error for the numeric data and PFC refers to the proportion of falsely classified entries for the categorical variables. For both, lower is better.</a></li>
+<li class="chapter" data-level="" data-path="if-we-wanted-the-error-for-one-variable.html"><a href="if-we-wanted-the-error-for-one-variable.html"><i class="fa fa-check"></i>If we wanted the error for one variable?</a></li>
+<li class="chapter" data-level="" data-path="how-about-knn.html"><a href="how-about-knn.html"><i class="fa fa-check"></i>How about KNN?</a></li>
+<li class="chapter" data-level="" data-path="how-about-missforest.html"><a href="how-about-missforest.html"><i class="fa fa-check"></i>How about missForest?</a></li>
+<li class="chapter" data-level="" data-path="what-if-we-wanted-to-get-the-errors-for-the-mice-datasets.html"><a href="what-if-we-wanted-to-get-the-errors-for-the-mice-datasets.html"><i class="fa fa-check"></i>What if we wanted to get the errors for the MICE datasets?</a></li>
+<li class="chapter" data-level="" data-path="apply-the-mixerror-function-across-the-imputed-dataframes..html"><a href="apply-the-mixerror-function-across-the-imputed-dataframes..html"><i class="fa fa-check"></i>Apply the mixError function across the imputed dataframes.</a></li>
+<li class="chapter" data-level="" data-path="lets-average-the-errors-using-the-reduce-function-which-can-used-to-apply-a-function-over-a-list-and-then-return-a-single-result.-here-we-are-adding-the-elements-of-l_errors-and-dividing-them-by-the-length-of-l_errors..html"><a href="lets-average-the-errors-using-the-reduce-function-which-can-used-to-apply-a-function-over-a-list-and-then-return-a-single-result.-here-we-are-adding-the-elements-of-l_errors-and-dividing-them-by-the-length-of-l_errors..html"><i class="fa fa-check"></i>Let’s average the errors using the Reduce() function, which can used to apply a function over a list and then return a single result. Here, we are adding the elements of l_Errors and dividing them by the length of l_Errors.</a></li>
+<li class="chapter" data-level="" data-path="impute-the-full-dataset.--.html"><a href="impute-the-full-dataset.--.html"><i class="fa fa-check"></i>Impute the full dataset. —-</a></li>
+<li class="chapter" data-level="" data-path="from-here-choose-the-best-performing-method-on-the-complete-case-data-and-use-it-to-impute-your-target-dataset..html"><a href="from-here-choose-the-best-performing-method-on-the-complete-case-data-and-use-it-to-impute-your-target-dataset..html"><i class="fa fa-check"></i>From here, choose the best-performing method on the complete-case data and use it to impute your target dataset.</a></li>
+<li class="chapter" data-level="" data-path="ideally-it-would-be-the-method-that-resulted-in-the-lowest-error-rate-for-the-majority-of-variables..html"><a href="ideally-it-would-be-the-method-that-resulted-in-the-lowest-error-rate-for-the-majority-of-variables..html"><i class="fa fa-check"></i>Ideally, it would be the method that resulted in the lowest error rate for the majority of variables.</a></li>
+<li class="chapter" data-level="" data-path="extract-imputed-dataset..html"><a href="extract-imputed-dataset..html"><i class="fa fa-check"></i>Extract imputed dataset.</a></li>
+<li class="chapter" data-level="" data-path="combine-dataframes-into-list..html"><a href="combine-dataframes-into-list..html"><i class="fa fa-check"></i>Combine dataframes into list.</a></li>
+<li class="chapter" data-level="" data-path="name-the-list-according-to-dataframe..html"><a href="name-the-list-according-to-dataframe..html"><i class="fa fa-check"></i>Name the list according to dataframe.</a></li>
+<li class="chapter" data-level="" data-path="we-need-to-make-some-alterations-for-plotting..html"><a href="we-need-to-make-some-alterations-for-plotting..html"><i class="fa fa-check"></i>We need to make some alterations for plotting.</a></li>
+<li class="chapter" data-level="" data-path="merge-all-the-dataframes-by-species..html"><a href="merge-all-the-dataframes-by-species..html"><i class="fa fa-check"></i>Merge all the dataframes by species.</a></li>
+<li class="chapter" data-level="" data-path="from-here-we-can-make-plots-pretty-easily..html"><a href="from-here-we-can-make-plots-pretty-easily..html"><i class="fa fa-check"></i>From here, we can make plots pretty easily.</a></li>
+<li class="chapter" data-level="" data-path="log-transform-data-for-better-visualization..html"><a href="log-transform-data-for-better-visualization..html"><i class="fa fa-check"></i>Log transform data for better visualization.</a></li>
+<li class="chapter" data-level="" data-path="get-sample-size-counts-for-each-column..html"><a href="get-sample-size-counts-for-each-column..html"><i class="fa fa-check"></i>Get sample size counts for each column.</a></li>
+<li class="chapter" data-level="" data-path="pivot-dataframe-to-long-form-so-we-can-more-easily-plot-variables-by-group..html"><a href="pivot-dataframe-to-long-form-so-we-can-more-easily-plot-variables-by-group..html"><i class="fa fa-check"></i>Pivot dataframe to long form so we can more easily plot variables by group.</a></li>
+<li class="chapter" data-level="" data-path="convert-to-factor..html"><a href="convert-to-factor..html"><i class="fa fa-check"></i>Convert to factor.</a></li>
+<li class="chapter" data-level="" data-path="x-axis-label-containing-sample-size-information..html"><a href="x-axis-label-containing-sample-size-information..html"><i class="fa fa-check"></i>X-axis label containing sample size information.</a></li>
+<li class="chapter" data-level="" data-path="paste-sample-size-onto-datatype-vector..html"><a href="paste-sample-size-onto-datatype-vector..html"><i class="fa fa-check"></i>Paste sample size onto dataType vector.</a></li>
+<li class="chapter" data-level="" data-path="ggplot-comparing-trait-distributions.html"><a href="ggplot-comparing-trait-distributions.html"><i class="fa fa-check"></i>GGplot comparing trait distributions</a></li>
+<li class="chapter" data-level="" data-path="lets-plot-a-categorical-trait-now.html"><a href="lets-plot-a-categorical-trait-now.html"><i class="fa fa-check"></i>Let’s plot a categorical trait now!</a></li>
+<li class="chapter" data-level="" data-path="same-steps-as-above..html"><a href="same-steps-as-above..html"><i class="fa fa-check"></i>Same steps as above.</a></li>
+<li class="chapter" data-level="" data-path="create-dataframe-containing-category-counts-for-each-group..html"><a href="create-dataframe-containing-category-counts-for-each-group..html"><i class="fa fa-check"></i>Create dataframe containing category counts for each group.</a></li>
+<li class="chapter" data-level="" data-path="convert-to-factor.-1.html"><a href="convert-to-factor.-1.html"><i class="fa fa-check"></i>Convert to factor.</a></li>
+<li class="chapter" data-level="" data-path="group-by-name-and-value-to-prepare-data-for-plotting..html"><a href="group-by-name-and-value-to-prepare-data-for-plotting..html"><i class="fa fa-check"></i>Group by name and value to prepare data for plotting.</a></li>
+<li class="chapter" data-level="" data-path="paste-sample-size-onto-datatype-vector.-1.html"><a href="paste-sample-size-onto-datatype-vector.-1.html"><i class="fa fa-check"></i>Paste sample size onto dataType vector.</a></li>
+<li class="chapter" data-level="" data-path="barplot-comparing-trait-categories-of-complete-case-pre--and-post-imputation..html"><a href="barplot-comparing-trait-categories-of-complete-case-pre--and-post-imputation..html"><i class="fa fa-check"></i>Barplot comparing trait categories of complete-case, pre- and post-imputation.</a></li>
+<li class="chapter" data-level="" data-path="compare-inferences-obtained-from-complete-case-and-imputed-datasets.--.html"><a href="compare-inferences-obtained-from-complete-case-and-imputed-datasets.--.html"><i class="fa fa-check"></i>Compare inferences obtained from complete-case and imputed datasets. —-</a></li>
+<li class="chapter" data-level="" data-path="finally-something-you-should-consider-after-finishing-your-analysis..re-doing-the-analysis-using-the-complete-case-dataset-and-comparing-it-to-the-results-obtained-using-your-final-imputed-dataset..html"><a href="finally-something-you-should-consider-after-finishing-your-analysis..re-doing-the-analysis-using-the-complete-case-dataset-and-comparing-it-to-the-results-obtained-using-your-final-imputed-dataset..html"><i class="fa fa-check"></i>Finally, something you should consider after finishing your analysis..re-doing the analysis using the complete-case dataset and comparing it to the results obtained using your final imputed dataset.</a></li>
+<li class="chapter" data-level="" data-path="how-do-the-results-change.html"><a href="how-do-the-results-change.html"><i class="fa fa-check"></i>How do the results change?</a></li>
+<li class="chapter" data-level="" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i>Logistic regression</a></li>
+<li class="chapter" data-level="" data-path="one-last-plot-to-compare-how-results-change-between-complete-case-and-imputed-models..html"><a href="one-last-plot-to-compare-how-results-change-between-complete-case-and-imputed-models..html"><i class="fa fa-check"></i>One last plot to compare how results change between complete-case and imputed models.</a></li>
+<li class="chapter" data-level="" data-path="dumbbell-plot-for-comparing-p-values..html"><a href="dumbbell-plot-for-comparing-p-values..html"><i class="fa fa-check"></i>Dumbbell plot for comparing p-values.</a></li>
+<li class="chapter" data-level="" data-path="complete-case-vs.-sim-imputed..html"><a href="complete-case-vs.-sim-imputed..html"><i class="fa fa-check"></i>Complete-case vs. sim-imputed.</a></li>
+<li class="chapter" data-level="" data-path="complete-case-vs.-full-imputed-dataset..html"><a href="complete-case-vs.-full-imputed-dataset..html"><i class="fa fa-check"></i>Complete-case vs. full imputed dataset.</a></li>
+<li class="chapter" data-level="" data-path="reproductive-mode-did-have-a-considerable-amount-of-missingness-40.html"><a href="reproductive-mode-did-have-a-considerable-amount-of-missingness-40.html"><i class="fa fa-check"></i>Reproductive mode did have a considerable amount of missingness (~40%)</a></li>
+<li class="chapter" data-level="" data-path="it-is-important-to-consider-how-imputed-values-impact-your-results-every-step-of-the-way-from-accuracy-of-imputed-values-to-the-downstream-impacts-on-inferences.-but-imputation-is-a-very-powerful-tool-if-used-in-the-right-way.html"><a href="it-is-important-to-consider-how-imputed-values-impact-your-results-every-step-of-the-way-from-accuracy-of-imputed-values-to-the-downstream-impacts-on-inferences.-but-imputation-is-a-very-powerful-tool-if-used-in-the-right-way.html"><i class="fa fa-check"></i>It is important to consider how imputed values impact your results every step of the way, from accuracy of imputed values to the downstream impacts on inferences. But, imputation is a very powerful tool if used in the right way!</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html"><i class="fa fa-check"></i>Module 3: Modeling Part 1</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lecture-2"><i class="fa fa-check"></i>Lecture</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#regression"><i class="fa fa-check"></i>Regression</a></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#generalized-linear-models"><i class="fa fa-check"></i>Generalized Linear Models</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-3-modeling-part-1.html"><a href="module-3-modeling-part-1.html#lab-2"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html"><i class="fa fa-check"></i>Module 4: Modeling Part 2</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lecture-3"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-4-modeling-part-2.html"><a href="module-4-modeling-part-2.html#lab-3"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html"><i class="fa fa-check"></i>Module 5: Putting it all Together</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lecture-4"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-5-putting-it-all-together.html"><a href="module-5-putting-it-all-together.html#lab-4"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html"><i class="fa fa-check"></i>Module 6: Introduction to Causal Intference</a>
+<ul>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lecture-5"><i class="fa fa-check"></i>Lecture</a></li>
+<li class="chapter" data-level="" data-path="module-6-introduction-to-causal-intference.html"><a href="module-6-introduction-to-causal-intference.html#lab-5"><i class="fa fa-check"></i>Lab</a></li>
+</ul></li>
+<li class="divider"></li>
+<h1 id="sponsors">Sponsors</h1>
+<center>
+
+<a href="https://oicr.on.ca/"><img src="img/sponsors/oicr.png" width=25% style="display:inline-block;" style="padding-bottom: 20px" alt="Ontario Institute for Cancer Research logo.">
+<a href="https://www.hpcforhealth.ca/"><img src="img/sponsors/hpc4health.png" width=60% style="display:inline-block;" style="padding-bottom: 20px "alt="HPC4Health logo.">
+<br>
+<a href="https://genomecanada.ca/"><img src="img/sponsors/genomecanada.png" height="70" style="display:inline-block;"  style="padding-bottom: 20px" alt="Genome Canada logo.">
+<a href="https://www.ontariogenomics.ca/"><img src="img/sponsors/ontariogenomics.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Ontario Genomics logo.">
+<br>
+<a href="https://computationalgenomics.ca/"><img src="img/sponsors/c3g.png" height="70" style="display:inline-block;" style="padding-bottom: 20px;" alt="Canadian Centre for Computational Genomics logo.">
+<br><br>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Help! What Statistical Model Should I Use? 2024</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="view-imputed-data." class="section level1 hasAnchor">
+<h1>View imputed data.<a href="view-imputed-data..html#view-imputed-data." class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>View(miceMids<span class="math inline">\(imp\)</span>maximum_svl) ## This contains the imputed values for each of the 5 datasets.
+View(miceMids<span class="math inline">\(imp\)</span>insular_endemic)</p>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="what-variables-were-used-as-predictors-you-can-alter-this-matrix.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="if-you-are-running-a-statistical-analysis-on-data-imputed-using-mice-you-will-have-to-apply-it-to-each-of-the-imputed-datasets.-for-example.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/cbw-dev/STAT_2024/blob/main/020-module-2.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

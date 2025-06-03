@@ -1,6 +1,474 @@
-# Module 2
+# Module 2: Dealing with Missingness
 
 ## Lecture
 
+<iframe width="640" height="360" src="https://www.youtube.com/embed/F-upvvPPB2s?si=i5BPnNdYoAdnFN3A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br>
+
+<iframe src="https://drive.google.com/file/d/1aaz0oZXsdX_8p1RiOhgcmHLf8CW25CKp/preview" width="640" height="480" allow="autoplay"></iframe>
 
 ## Lab
+
+### Load libraries. ----
+
+
+library(tidyverse)
+library(mice)
+library(missForest)
+library(VIM)
+library(simputation)
+library(naniar)
+
+### Read in data. ----
+
+##### Read in trait dataset we cleaned in the last module.
+dfTraits <- read.csv(file = "dfTraits.csv")
+
+##### Identify the taxonomy columns.
+taxCols <- c("family", "genus", "species")
+##### Identify the traits.
+traits <- setdiff(names(dfTraits), taxCols)
+##### Identify the numerical traits.
+contTraits <- traits[sapply(dfTraits[traits], is.numeric)]
+##### Identify the categorical traits.
+catTraits <- setdiff(traits, contTraits)
+
+### Missing data exploration. ----
+
+##### Let's make a dataframe for plotting.
+dfMissing <- dfTraits[traits] %>%
+  # Get number of NAs in each trait.
+  # across() allows us to apply our function across multiple columns, everything() selects all columns and ~ sum(is.na(.)) is our anonymous function
+  summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  # Pivot longer for plotting. pivot_longer and pivot_wider are useful functions for getting your data into a format for plotting. It also help with tidying messy data.
+  # Here, we are selecting all of the columns and flipping it longways so that trait name is one column and the number of NAs is the other columns.
+  pivot_longer(cols = everything(), names_to = "trait", values_to = "num_NAs") %>%
+  # Finally, add a column for percentage of missing values.
+  mutate(pct_missing = (num_NAs/nrow(dfTraits)) * 100)
+
+##### Note: it can help to make interim variables when you are trying to understand or debug code. One of the downsides of the tidyverse pipe!
+
+View(dfMissing)
+
+##### ggplot for missingness visualization
+  ggplot(dfMissing) +
+  # Barplot ordered by missingness
+  # reorder function from R documentation: "The "default" method treats its first argument as a categorical variable, and reorders its levels based on the values of a second variable, usually numeric."
+  geom_bar(aes(x = reorder(trait, desc(pct_missing)), y = pct_missing), 
+           stat = 'identity', fill = "seagreen", width = 0.7) +
+  coord_flip() +
+  labs(title = "Percentage of Missing Values by Trait", x = 'Trait', y = "% of Missing Values") +
+  theme_minimal(base_size = 12) 
+
+##### Using the package "naniar" to visualize missing data.
+naniar::vis_miss(dfTraits[traits])
+
+##### Clustering by missingness may help you see patterns
+naniar::vis_miss(dfTraits[traits], cluster = T, sort_miss = T)
+
+##### Upset plots to identify missingness combinations.
+naniar::gg_miss_upset(dfTraits[traits])
+
+##### Here's the kicker! How many species do we lose if we use complete case observations?
+dfCompleteCase <- na.omit(dfTraits)
+cat("We lose", nrow(dfTraits) - nrow(dfCompleteCase), "species!")
+
+### Imputation prep. ----
+
+##### Only some traits are amenable to imputation and we need to do some more preprocessing before we impute our values.
+names(dfTraits)
+##### Set row names as species so we have a form of ID.
+rownames(dfTraits) <- dfTraits$species
+
+##### Imputing traits with high proportions of missingness could be problematic. Based on our visualizations, let's set a threshold of 60% missingness as our cutoff.
+##### Note: this is an arbitrary threshold I am using right now. In reality, this is something you could perform sensitivity analyses on. There is no "right" answer for how much missingness is too much. It's a combination of many factors (e.g., sample size, strength of relationships between variables, missingness mechanism, etc.). So you probably don't want to impute a variable with only a few observations and 90% missingness, for example.
+dfFiltered <- dfTraits %>% 
+  select(-c(all_of(taxCols), ## leave out taxonomy also for imputation purposes
+            age_first_breeding, foraging_mode, hatchling_neonate_svl)) ## traits with most amount of missingness)) 
+
+##### Update our trait vectors.
+catTraits <- catTraits[!catTraits %in% "foraging_mode"]
+contTraits <- contTraits[!contTraits %in% c("age_first_breeding", "hatchling_neonate_svl")]
+traits <- c(catTraits, contTraits)
+
+##### Visualize the missingness of our subset. This also gives you an idea of which combination of traits would give you the largest complete-case dataset.
+naniar::vis_miss(dfFiltered, cluster = T, sort_miss = T)
+
+##### Imputation methods can be sensitive to class imbalance issues, as some categories may be over or underrepresented.
+##### Let's check our categorical traits for severe class imbalances or lack of variation or just for categories we should fix in general.
+lapply(dfFiltered[catTraits], table)
+
+##### Look at diet. "Herbivorous" is a minor category. We check if this category makes up more than 10% of the observed data.
+sum(dfFiltered$diet == "Herbivorous", na.rm = T)/sum(dfFiltered$diet != "Herbivorous", na.rm = T)
+##### Consider removing rare categories (those less than 10% of the data, for example). You could use a different threshold for your data if you had a large enough sample size.
+##### Let's remove the rare categories:
+dfFiltered <- dfFiltered %>%
+  filter(diet != "Herbivorous" | is.na(diet),
+         activity_time != "Cathemeral" | is.na(activity_time),
+         insular_endemic != "unknown" | is.na(insular_endemic),
+         reproductive_mode == "Oviparous" | reproductive_mode == "Viviparous" | is.na(reproductive_mode),
+         iucn_redlist_assessment == "LC" | iucn_redlist_assessment == "NE" | is.na(iucn_redlist_assessment)
+         ) ## need to specify that we are keeping NAs because filter will remove them!
+
+##### Check distributions of numerical traits once more.
+lapply(dfFiltered[contTraits], hist)
+
+##### Finally, let's ensure we have the correct data classes.
+dfFiltered[contTraits] <- lapply(dfFiltered[contTraits], as.numeric)
+##### Factor is the class required for imputation of categorical traits. It is also the data class required for categorical variables in many statistical analyses.
+dfFiltered[catTraits] <- lapply(dfFiltered[catTraits], as.factor)
+
+### Missingness simulation. ----
+
+##### The first thing we are going to do is make a complete-case dataset.
+dfCompleteCase <- na.omit(dfFiltered)
+
+##### We are going to log-transform our skewed numerical traits to make the distributions approximately normal. This can help with certain types of imputation methods, but isn't always necessary. 
+dfLog <- dfCompleteCase ## making a copy of the complete-case dataframe
+dfLog[c("maximum_svl", "largest_clutch")] <- lapply(dfLog[c("maximum_svl", "largest_clutch")], log)
+
+##### Now, set the seed so you can reproduce your results. This is VERY important!
+set.seed(123)
+##### To simulate missingness, let's introduce some NAs into the dataset using the prodNA function. Any data introduced using this function is missing completely at random (MCAR). If you are interested in simulated MAR or MNAR data, check out the mice::ampute function.
+?prodNA
+##### noNA = the proportion of missingness we want to introduce
+dfMissing <- prodNA(dfLog, noNA = 0.1)
+##### Let's make sure it worked.
+sum(is.na(dfMissing))/prod(dim(dfMissing))
+
+View(dfMissing)
+
+### Mean/mode imputation. ----
+
+##### Mean/mode is the simplest imputation method and it is pretty easy to do. It's a good baseline to compare other methods to.
+
+##### Make a copy of dfMissing.
+dfMeanModeImp <- dfMissing
+
+##### Impute traits with mean for numerical traits and mode for categorical traits.
+
+##### Mean value
+mean(dfMeanModeImp$latitude, na.rm = T)
+
+##### Mode value
+table(dfMeanModeImp$activity_time)
+which.max(table(dfMeanModeImp$activity_time))
+names(which.max(table(dfMeanModeImp$activity_time)))
+
+##### Use a for loop!:
+for(t in 1:length(traits)) {
+  
+  # Take the name of the tth trait.
+  trait <- traits[[t]]
+  
+  # Identify missing values in the trait.
+  index <- which(is.na(dfMeanModeImp[trait]))
+  
+  # If trait is numeric..
+  if(trait %in% contTraits){
+    
+    # Replace all NA values with the mean of the known observations for the variable.
+    dfMeanModeImp[index, trait] <- mean(dfMeanModeImp[[trait]], na.rm = T)
+    
+  } else if(trait %in% catTraits){
+    
+    # Replace all NA values with the mode of the known observations for the variable.
+    dfMeanModeImp[index, trait] <- names(which.max(table(dfMeanModeImp[[trait]])))
+    
+  }
+  
+}
+
+##### Back-transform the log-transformed data because we will need to compare it to the original data to get our error rates.
+dfMeanModeImp[c("maximum_svl", "largest_clutch")] <- lapply(dfMeanModeImp[c("maximum_svl", "largest_clutch")], exp)
+
+### K-Nearest Neighbour Imputation ----
+
+##### Let's try using KNN (K-Nearest Neighbour Imputation). Using a distance matrix, determines k neighbours that are closest to the observation with missing values. It then uses the information from the nearest neighbours to fill in the missing values.
+?kNN
+
+##### data = dataframe with missing values, k = number of nearest neighbours used. Rule of thumb for k is to take the square root of n (sample size). This might be a parameter you want to tune, however.
+neighbours <- round(sqrt(nrow(dfMissing)))
+dfKNN <- kNN(data = dfMissing, k = neighbours)
+
+View(dfKNN) ## This is nice because it lets you track your imputed values.
+
+##### Subset to only take the imputed values and not the indicator columns.
+dfKNN <- dfKNN[, -grep(pattern = "_imp", x = names(dfKNN))]
+##### Back-transform the log-transformed data.
+dfKNN[c("maximum_svl", "largest_clutch")] <- lapply(dfKNN[c("maximum_svl", "largest_clutch")], exp)
+
+### Random forest imputation ----
+
+##### Builds a Random Forest model using the observed data to estimate those values that are missing. It is an iterative process that repeats until the imputed values stabilize.
+?missForest
+
+##### xmix = dataframe with missing values, maxiter = max # of iterations performed, ntree = number of trees in the forest
+RFresult <- missForest(xmis = dfMissing, maxiter = 10, ntree = 100)
+
+##### Look at the imputed dataframe.
+View(RFresult$ximp)
+class(RFresult$ximp)
+
+##### Assign to dataframe.
+dfRF <- RFresult$ximp
+
+##### Again, back-transform the data.
+dfRF[c("maximum_svl", "largest_clutch")] <- lapply(dfRF[c("maximum_svl", "largest_clutch")], exp)
+
+### MICE. ----
+
+##### MICE is a framework for performing multiple imputation. Single imputation is performed several times, so it can provides a measure of uncertainty for your imputed values
+
+?mice
+
+##### Default methods for numeric and categorical traits are predictive mean matching and logistic regression, respectively. But you can try different methods and see which works best for your data.
+sapply(dfMissing, class)
+myMethods <- c("norm.predict", "cart", "pmm", "logreg", "logreg", "cart", "pmm", "cart")
+##### data = dataframe with missing values, m = number of multiple imputations.
+miceMids <- mice(data = dfMissing, method = myMethods, m = 10)
+
+##### Check the class.
+class(miceMids)
+##### mids is a special object that contains multiple imputed datasets.
+?mids
+
+##### Number of imputed datasets
+miceMids$m
+
+##### What variables were used as predictors (you can alter this matrix)
+miceMids$predictorMatrix
+
+##### View imputed data.
+View(miceMids$imp$maximum_svl) ## This contains the imputed values for each of the 5 datasets.
+View(miceMids$imp$insular_endemic)
+
+##### If you are running a statistical analysis on data imputed using MICE, you will have to apply it to EACH of the imputed datasets. For example:
+##### Fitting a linear regression to the multiply imputed datasets using the with() function.
+fit <- with(miceMids, lm(maximum_svl ~ latitude + insular_endemic))
+
+#### What class is it?
+class(fit) ## special class called "mira" that contained results of analyses repeated across MI datasets
+##### Let's see what it contains.
+fit ## Results of all the different regressions !
+
+##### Let's pool the results together using the pool function.
+##### From the mice documentation: "The pool() function combines the estimates from m repeated complete data analyses."
+pool.fit <- pool(fit)
+summary(pool.fit)
+
+?pool ## if you are interested in how the pooling is performed
+
+##### Get a list of the imputed dataframes using the mice::complete() function. Since we specified "all", it will return us a list containing all of the imputed dataframes. Should be length "m".
+l_dfMICE <- mice::complete(miceMids, "all") 
+
+View(l_dfMICE[[1]])
+
+##### Back-transform all the imputed values in this list.
+l_dfMICE <- lapply(l_dfMICE, function(x){
+  x[c("maximum_svl", "largest_clutch")] <- lapply(x[c("maximum_svl", "largest_clutch")], exp)
+  return(x)
+})
+
+### Error rates. ----
+
+##### Let's see how well the different imputation methods predicted the values. 
+
+#### First back-transform dfMissing for comparison purposes
+dfMissing[c("maximum_svl", "largest_clutch")] <- lapply(dfMissing[c("maximum_svl", "largest_clutch")], exp) 
+
+##### We can use did the missForest::mixError() function for obtaining error rates. 
+##### mixError is a useful function because it tracks which values were imputed for you, as long as you can provide it with the original and missing dataframes.
+missForest::mixError(ximp = dfMeanModeImp, xmis = dfMissing, xtrue = dfCompleteCase)
+
+##### NRMSE refers to the normalized root mean squared error for the numeric data and PFC refers to the proportion of falsely classified entries for the categorical variables. For both, lower is better.
+
+##### If we wanted the error for one variable? 
+missForest::mixError(ximp = dfMeanModeImp["maximum_svl"], xmis = dfMissing["maximum_svl"], xtrue = dfCompleteCase["maximum_svl"]) ## Remember it wants a dataframe as input!
+
+##### How about KNN?
+missForest::mixError(ximp = dfKNN, xmis = dfMissing, xtrue = dfCompleteCase)
+##### A bit better than mean/mode.
+
+##### How about missForest?
+missForest::mixError(ximp = dfRF, xmis = dfMissing, xtrue = dfCompleteCase)
+##### Better on the numerical traits but worse on categorical compared to KNN.
+
+##### What if we wanted to get the errors for the MICE datasets? 
+##### Apply the mixError function across the imputed dataframes.
+l_MICEerrors <- lapply(l_dfMICE, function(x) mixError(ximp = x, xmis = dfMissing, xtrue = dfCompleteCase))
+
+##### Let's average the errors using the Reduce() function, which can used to apply a function over a list and then return a single result. Here, we are adding the elements of l_Errors and dividing them by the length of l_Errors.
+Reduce("+", l_MICEerrors)/length(l_MICEerrors) ## probably need to pick better methods 
+
+### Impute the full dataset. ----
+
+##### From here, choose the best-performing method on the complete-case data and use it to impute your target dataset.
+##### Ideally, it would be the method that resulted in the lowest error rate for the majority of variables.
+imputeRes <- missForest(xmis = dfFiltered) ## may take a while
+
+##### Extract imputed dataset.
+dfImputed <- imputeRes$ximp
+
+##### Combine dataframes into list.
+l_dfAll <- list(dfCompleteCase, dfRF, dfFiltered, dfImputed)
+
+##### Name the list according to dataframe.
+names(l_dfAll) <- c("CC", "SIM", "O", "IMP")
+
+##### We need to make some alterations for plotting.
+for(i in 1:length(l_dfAll)){
+  
+  # Get name of dataframe.
+  ID <- names(l_dfAll)[[i]]
+  
+  # Add ID to column names of dataframe so we can identify which dataframe it came from.
+  names(l_dfAll[[i]]) <- paste(ID, colnames(l_dfAll[[i]]), sep = "_")
+  
+  # Add species col so we can merge them together.
+  l_dfAll[[i]]$species <- rownames(l_dfAll[[i]]) 
+  
+}
+
+View(l_dfAll[[1]])
+
+##### Merge all the dataframes by species.
+dfAll <- Reduce(function(...) merge(..., by = "species", all = T), l_dfAll)
+names(dfAll)
+
+##### From here, we can make plots pretty easily.
+dfSubset <- select(dfAll, c(CC_largest_clutch, SIM_largest_clutch, 
+                            O_largest_clutch, IMP_largest_clutch))
+
+##### Log transform data for better visualization.
+dfSubset <- as.data.frame(lapply(dfSubset, log)) ## sometimes dataframe format is easier to deal
+
+##### Get sample size counts for each column.
+sampleSizes <- sapply(dfSubset, function(x) sum(!is.na(x)))
+sampleSizes
+
+##### Pivot dataframe to long form so we can more easily plot variables by group.
+dfPivot <- pivot_longer(dfSubset, cols = colnames(dfSubset))
+View(dfPivot)
+
+##### Convert to factor.
+dfPivot$name <- as.factor(dfPivot$name)
+
+##### X-axis label containing sample size information.
+dataType <- c("Complete case", "Sim-imputed", "Original", "Original - Post-imputation")
+
+##### Paste sample size onto dataType vector.
+xlabel <- paste(dataType, "\n", "(n = ", sampleSizes, ")" , sep = "")
+
+##### GGplot comparing trait distributions
+ggplot(dfPivot, aes(x = name, y = value, fill = name)) +
+  geom_boxplot() +
+  labs(title = trait, y = "", x = "")  +
+  scale_x_discrete(labels = xlabel) + 
+  scale_fill_brewer(palette = "Set3") +
+  theme_minimal(base_size = 12) + # Base font size
+  theme(legend.position = "none") +
+  theme(axis.text = element_text(size = 10, face = "bold"))
+
+##### Let's plot a categorical trait now!
+names(dfAll)
+
+##### Same steps as above.
+dfSubset <- select(dfAll, c(CC_diet, SIM_diet, 
+                            O_diet, IMP_diet))
+
+sampleSizes <- sapply(dfSubset, function(x) sum(!is.na(x)))
+
+##### Create dataframe containing category counts for each group.
+dfPivot <- pivot_longer(dfSubset, cols = colnames(dfSubset))
+
+##### Convert to factor.
+dfPivot$name <- as.factor(dfPivot$name)
+
+##### Group by name and value to prepare data for plotting.
+dfCount <- dfPivot %>%
+  na.omit() %>%
+  group_by(name, value) %>%
+  # Get counts by group
+  summarise(count = n()) %>%
+  mutate(prop = count/sum(count))
+
+View(dfCount)
+
+##### Paste sample size onto dataType vector.
+xlabel <- paste(dataType, "\n", "(n = ", sampleSizes, ")" , sep = "")
+
+##### Barplot comparing trait categories of complete-case, pre- and post-imputation.
+ggplot(data = dfCount, mapping = aes(x = name, y = prop, fill = value)) + 
+  geom_bar(stat = "identity", position = "dodge") + 
+  scale_x_discrete(labels = xlabel) +
+  scale_fill_brewer(palette = "Blues") +
+  geom_text(aes(label = scales::percent(prop, accuracy = 0.1)), vjust = -.5, 
+            position = position_dodge(0.9), size = 3) +
+  theme(axis.text=element_text(size = 10, face = "bold")) +
+  labs(title = trait, y = "", x = "") +
+  theme_minimal()
+
+##### Compare inferences obtained from complete-case and imputed datasets. ----
+
+##### Finally, something you should consider after finishing your analysis..re-doing the analysis using the complete-case dataset and comparing it to the results obtained using your final imputed dataset. 
+##### How do the results change?
+
+##### Logistic regression
+ccModel <- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+                 latitude, data = dfCompleteCase, family = "binomial")
+summary(ccModel)
+
+simModel <- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+                 latitude, data = dfRF, family = "binomial")
+summary(simModel)
+
+targetModel <- glm(diet ~ activity_time + maximum_svl + reproductive_mode + insular_endemic +
+                     latitude, data = dfImputed, family = "binomial")
+summary(targetModel)
+
+##### One last plot to compare how results change between complete-case and imputed models.
+cols <- c("#F3E79A", "#ED7C97", "#9F7FCD")
+# Create dataframe of p-values from complete-case and imputed models.
+dfPvalues <- data.frame(
+  trait = c("Activity time", "Max. SVL", "Repro. mode", "Insular/endemic", "Latitude"), 
+  p_cc = -log(c(2.37e-06, 0.00270, 0.00093, 1.37e-06, 9.66e-06)), 
+  p_sim = -log(c(3.10e-07, 0.000234, 0.007901, 1.95e-07, 0.000108)), 
+  p_imp = -log(c(2e-16, 1.11e-09, 0.143, 6.27e-15, 2e-16)))
+##### Note that we use the -log to improve visualization and visibility of smaller p-values.
+
+##### Dumbbell plot for comparing p-values.
+##### Complete-case vs. sim-imputed.
+ggplot(dfPvalues) +
+  geom_segment(aes(x = trait, xend = trait, y = p_cc, yend = p_sim), color="#9F7FCD", size = 6.5, alpha = .4) +
+  geom_point(aes(x = trait, y = p_cc), colour = "#ED7C97", shape = "triangle", size = 6.5, show.legend = TRUE) +
+  geom_pointrange(aes(x = trait, y = p_sim, ymin = p_sim, ymax = p_sim), colour = "#F3E79A", size = 1.5, show.legend = TRUE) +
+  theme_minimal() +
+  geom_hline(yintercept = -log(0.05), linetype = "dashed", 
+             color = "darkgray", size = 1) +
+  labs(title = "Complete-case vs. sim-imputed dataset", 
+       x = "\nTrait", y = "-ln(P-value)\n") +
+  theme(axis.text.x = element_text(size = 12, vjust = 0.5, hjust = 0.5), 
+        axis.text = element_text(size = 12, face = "bold"), 
+        strip.text.x = element_text(size = 10, face = "bold"), 
+        axis.title=element_text(size = 14, face="bold"))
+
+##### Complete-case vs. full imputed dataset.
+ggplot(dfPvalues) +
+  geom_segment(aes(x = trait, xend = trait, y = p_cc, yend = p_imp), color="#9F7FCD", size = 6.5, alpha = .4) +
+  geom_point(aes(x = trait, y = p_cc), colour = "#ED7C97", shape = "triangle", size = 6.5, show.legend = TRUE) +
+  geom_pointrange(aes(x = trait, y = p_imp, ymin = p_imp, ymax = p_imp), colour = "#F3E79A", size = 1.5, show.legend = TRUE) +
+  theme_minimal() +
+  geom_hline(yintercept = -log(0.05), linetype = "dashed", 
+             color = "darkgray", size = 1) +
+  labs(title = "Complete-case vs. full imputed dataset", 
+       x = "\nTrait", y = "-ln(P-value)\n") +
+  theme(axis.text.x = element_text(size = 12, vjust = 0.5, hjust = 0.5), 
+        axis.text = element_text(size = 12, face = "bold"), 
+        strip.text.x = element_text(size = 10, face = "bold"), 
+        axis.title=element_text(size = 14, face="bold"))
+
+##### Reproductive mode did have a considerable amount of missingness (~40%)
+
+##### It is important to consider how imputed values impact your results every step of the way, from accuracy of imputed values to the downstream impacts on inferences. But, imputation is a very powerful tool if used in the right way!

@@ -1,16 +1,16 @@
 --- 
-title: "NAME OF WORKSHOP YEAR"
-author: "Faculty: INSTRUCTOR AND TA NAMES"
-date: "DATES"
+title: "Help! What Statistical Model Should I Use? 2024"
+author: "Faculty: Patrick McMillan, Alysha Cooper, Jacqueline May"
+date: "August 19, 2024 - August 21, 2024"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-url: https://cbw-dev.github.io/bookdown-template/ # CHANGE THIS LINK TO YOUR LANDING PAGE LINK
+url: https://cbw-dev.github.io/STAT_2024/ # CHANGE THIS LINK TO YOUR LANDING PAGE LINK
 cover-image: img/bioinformatics_logo.png
 description: |
-  Workshop website for the YEAR WORKSHOP Canadian Bioinformatics Workshop
+  Workshop website for the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop
 link-citations: yes
-github-repo: cbw-dev/bookdown-template # CHANGE THIS TO YOUR OWN REPO
+github-repo: cbw-dev/STAT_2024 # CHANGE THIS TO YOUR OWN REPO
 favicon: img/favicon.ico
 ---
 
@@ -18,18 +18,25 @@ favicon: img/favicon.ico
 
 # Workshop Info
 
-Welcome to the YEAR WORKSHOP Canadian Bioinformatics Workshop webpage!  
+Welcome to the 2024 Help! What Statistical Model Should I Use? Canadian Bioinformatics Workshop webpage!  
 
-<!--## Class Photo
-
-After workshop concludes, YOUR EMBED CODE HERE-->
+<img src="./img/STAT24_ClassPhoto.png" width="500" alt="Statistics 2024 class photo.">
 
 ## Schedule
 
-<!--Copy paste a table into https://www.tablesgenerator.com/markdown_tables (select convert to markdown) to create a table in markdown.   
--->
+| Time (Eastern) | August 19                                                               | Time (Eastern) | August 20                                        | Time (Eastern) | August 21                                                   |
+|----------------|-------------------------------------------------------------------------|----------------|--------------------------------------------------|----------------|-------------------------------------------------------------|
+| 8:30           | Arrivals & Check-in                                                     | 8:30           | Arrivals                                         | 8:30           | Arrivals                                                    |
+| 9:00           | Welcome (Nia Hughes)                                                    | 9:00           | Module 3: Modeling Part 1 (Alysha Cooper)        | 9:00           | Module 5: Putting it all Together (Patrick McMillan)        |
+| 9:30           | Module 1: Data cleaning and exploration review (Dr. Jacqueline May)     | 10:00          | Break (30 min)                                   | 10:00          | Break (30 min)                                              |
+| 10:30          | Break (30 min)                                                          | 10:30          | Module 3 Lab: Modeling Part 1 (Alysha Cooper)    | 10:30          | Module 5 Lab: Putting it all Together (Patrick McMillan)    |
+| 11:00          | Module 1 Lab: Data cleaning and exploration review (Dr. Jacqueline May) | 12:30          | Class photo + Lunch (1h)                         | 12:30          | Lunch (1h)                                                  |
+| 13:00          | Lunch (1h)                                                              | 13:30          | Module 4: Modeling Part 2 (Patrick McMillan)     | 13:30          | Module 6: Causal Inference Introduction (Alysha Cooper)     |
+| 14:00          | Module 2: Dealing with Missingness (Dr. Jacqueline May)                 | 14:30          | Break (30 min)                                   | 14:30          | Break (30 min)                                              |
+| 15:00          | Break (30 min)                                                          | 15:00          | Module 4 Lab: Modeling Part 2 (Patrick McMillan) | 15:00          | Module 6 Lab: Causal Inference Introduction (Alysha Cooper) |
+| 15:30          | Module 2 Lab: Dealing with Missingness (Dr. Jacqueline May)             | 17:00          |                                                  | 17:00          | Survey & Closing Remarks                                    |
+| 17:30          | Finished                                                                | 17:30          | Finished                                         | 17:30          | Finished                                                    |
 
 ## Pre-work
 
-<!--[You can find your pre-work here.](LINK TO PREWORK)
--->
+[You can find your pre-work here.](https://docs.google.com/forms/d/e/1FAIpQLSefIeQogMeS6e1E4K9zklDwdXH4unIaj5vwvUlnTQgxswc1cQ/viewform)

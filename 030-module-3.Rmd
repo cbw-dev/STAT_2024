@@ -1,6 +1,718 @@
-# Module 3
+# Module 3: Modeling Part 1
 
 ## Lecture
 
+### Regression
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/pcSaS4TBzHU?si=eCHtcM7dbNW3l6w0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Generalized Linear Models
+
+<iframe width="640" height="360" src="https://www.youtube.com/embed/Mk9wS0wB5Kc?si=CZEhM-EYh7cmsxgf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<br>
+
+<iframe src="https://drive.google.com/file/d/1tL8V3YQ1iFUdwRQOAxqWS56yANCR_kZk/preview" width="640" height="480" allow="autoplay"></iframe>
 
 ## Lab
+
+### Loading the Libraries
+
+First, let's load any necessary libraries
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse) # General functions and plots
+library(faraway) # Source of the gala dataset
+library(car) # For some model diagnostics
+library(arm) # For binned plot for logistic regression
+library(mgcv) # For beta regression
+library(microbiome) # Source of dietswap data
+library(microbiomeDataSets) # Source of baboongut data
+library(phyloseq) # to calculate diversity measures
+library(GUniFrac) # for throat dataset
+library(MGLM) # for rna seq dataset
+```
+
+First, we will cover multiple linear regression modeling in R with the lm() function. In regression modeling, it is always important to consider the data available to you. What is your response of interest? Is it a continuous, roughly normally distributed variable? Which predictors should be included in your model? Do these predictors have a linear relationship with the outcome?
+
+### Multiple Linear Regression and the Dietswap Data
+
+Supposed researchers are interested in how nationality and bmi group are related to diversity of bacteria in the gut microbiome. In particular, researchers are interested to know whether nationality moderates the relationship between bmi group and Shannon diversity.
+
+#### Loading the Data
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# load the dietswap data from the microbiome package
+data(dietswap)
+
+# look up description of dataset
+?dietswap
+
+# given that this is a phylogenetic class format, we get the data as follows:
+otu_table(dietswap) # counts of different OTUs
+sample_data(dietswap) # the metadata
+
+# let's look at the summary of our sample data
+summary(sample_data(dietswap))
+```
+
+Since we do not have a column for the Shannon diversity, we must calculate it ourselves with the estimate_richness() function from the phyloseq package.
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# we don't have shannon diversity so we must calculate it given the OTU table
+Shannon <- estimate_richness(otu_table(dietswap), measures = c("Shannon"))
+
+# add shannon diversity to our sample data
+dietswap_data <- cbind.data.frame(Shannon=Shannon$Shannon, sample_data(dietswap))
+
+# look at histogram of Shannon diversity
+hist(dietswap_data$Shannon)
+
+# look at boxplot of Shannon diversity
+boxplot(dietswap_data$Shannon)
+```
+
+Another potential issue we notice when reviewing the dataset is that each sample was observed at multiple time points which means this data will violate our independence assumption. To overcome this, we can filter our data to only look at the first time point.
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# remove second time point for each group
+dietswap_data_t1 <- dietswap_data %>%
+                  filter(timepoint.within.group==1)
+```
+
+Since the researchers are interested to know whether there is an interaction effect, we must include the interaction and main effects in our linear model. To include an interaction between two variables, we use '*' in the model which will automatically include both main effects and the interaction effect of the 2 variables.
+
+```{r, message=FALSE, warning=FALSE}
+# fitting the full multiple linear regression in R
+mod1 <- lm(Shannon~nationality*bmi_group+sex, data=dietswap_data_t1)
+summary(mod1)
+```
+
+We see from the results of this linear model that there is very moderate evidence of an interaction effect between BMI group and nationality such that those with African nationality have a greater difference in diversity between the lean and overweight groups than those of African American nationality. Overall, the variables in the model accounted for 24.4% of variability in the diversity response.
+
+#### Model Diagnostics
+
+Again, after fitting the model, we must check for the following assumptions:
+
+1. Linearity - we already checked this prior to fitting the model
+
+2. Independence - we already fixed this by removing the second time point
+
+3. Homoscedasticity - we can check this with a scatterplot of model residuals vs. fitted values
+
+4. Normality - we can check this with a qq plot of model residuals
+
+5. No multicollinearity - we will ignore this for this model for now since we have interaction terms and look at it for the model without interactions
+
+```{r, message=FALSE, warning=FALSE}
+# 3. homoscedasticity
+res <- residuals(mod1)
+fit <- fitted(mod1)
+mod_res <- cbind.data.frame(res,fit)
+# create the residuals vs fitted values plot
+ggplot(data=mod_res,aes(x = fit, y = res)) +
+  geom_point(color = "blue", size = 2) +  # Plot the residuals
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Add a horizontal line at 0
+  labs(title = "Residuals vs Fitted Values",
+       x = "Fitted Values",
+       y = "Residuals") +
+  theme_minimal()
+
+# 4. normality 
+# QQ-plot to assess normality
+qqPlot(mod_res$res)
+```
+
+#### Comparing Nested Models
+
+When fitting multiple linear regression models, it's often useful to explore whether a simpler, more parsimonious model can adequately explain the data. For example, when working with indicator variables, we can assess whether they should be included for a change in intercept (main effect), a change in slope (interaction effect), or excluded altogether. By comparing models without the indicator, with only the main effect, and with the interaction effect, we can evaluate the contribution of the indicator variable and determine its necessity in the final model.
+
+Here, we will use the anova() function in R to compare nested models. The null hypothesis of the test run by this anova function is H0: reduced (simpler model) is adequate and the alternative hypothesis is H1: Full (more complex) model is needed to explain the data. Therefore, if the p value is small, then we have evidence that we should include the extra variable(s).
+
+```{r, message=FALSE, warning=FALSE}
+# fit model with only main effects for nationality
+mod2 <- lm(Shannon~nationality+bmi_group+sex, data=dietswap_data_t1)
+summary(mod2)
+
+# fit model without nationality
+mod3 <- lm(Shannon~bmi_group+sex, data=dietswap_data_t1)
+summary(mod3)
+
+# compare nested models
+anova(mod3,mod2)
+anova(mod3,mod1)
+anova(mod2,mod1)
+```
+
+From comparing the nested models, we see that nationality should be included in the model but that we do not require the interaction effect. We can go ahead and check the model diagnostics for mod2.
+
+```{r, message=FALSE, warning=FALSE}
+# 3. homoscedasticity
+res <- residuals(mod2)
+fit <- fitted(mod2)
+mod_res <- cbind.data.frame(res,fit)
+# create the residuals vs fitted values plot
+ggplot(data=mod_res,aes(x = fit, y = res)) +
+  geom_point(color = "blue", size = 2) +  # Plot the residuals
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +  # Add a horizontal line at 0
+  labs(title = "Residuals vs Fitted Values",
+       x = "Fitted Values",
+       y = "Residuals") +
+  theme_minimal()
+
+# 4.normality 
+# QQ-plot to assess normality
+qqPlot(mod_res$res)
+
+# 5. no multicollinearity
+vif(mod2)
+```
+
+#### Visualize our Model
+
+Now let's plot the interaction between bmi_group and nationality on Shannon diversity to help us interpret our findings.
+
+```{r, message=FALSE, warning=FALSE}
+ggplot(dietswap_data_t1, aes(x = bmi_group, y = Shannon, color = nationality, group = nationality)) +
+  stat_summary(fun = mean, geom = "point", size = 3) +  # Plot the means
+  stat_summary(fun = mean, geom = "line") +             # Connect the means with lines
+  labs(title = "Interaction between Nationality, BMI Group, and Shannon Diversity",
+       x = "BMI Group",
+       y = "Shannon Diversity Index",
+       color = "Nationality") +
+  theme_minimal() 
+```
+
+### Logistic Regression
+
+Suppose researchers are interested to learn more about the association between shannon diversity of the throat bacteria and smoking. We can use logistic regression to help answer this question through looking at whether we can predict smoking status with shannon diversity of bacteria in the throat, age, and sex.
+
+#### Loading the Data
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+# first, need to load in meta data and otu table
+data(throat.meta)
+data(throat.otu.tab)
+
+# look up descriptions of the data
+?throat.meta
+?throat.otu.tab
+
+# let's turn this data into a phyloseq object
+throat.physeq <- phyloseq(
+  otu_table(throat.otu.tab, taxa_are_rows = FALSE),
+  sample_data(throat.meta)
+)
+
+# check our phyloseq object
+otu_table(throat.physeq)
+sample_data(throat.physeq)
+
+
+# now we can estimate shannon diversity
+Shannon <- estimate_richness(otu_table(throat.physeq), measures="Shannon")
+throat_data <- cbind.data.frame(Shannon=Shannon$Shannon,sample_data(throat.physeq))
+```
+
+#### Fitting the Logistic Regression Model
+
+In R, we can use the glm() function to fit a logistic regression model by setting family = "binomial" as an argument.
+
+```{r, message=FALSE, warning=FALSE}
+# now let's look at the effect of sex, age, and diversity on smoking
+log_mod <- glm(SmokingStatus~Age+Sex+Shannon, data=throat_data, family=binomial)
+summary(log_mod)
+
+# get odds ratios
+exp(coef(log_mod))
+
+# 95% confidence intervals for odds ratios
+exp(confint(log_mod))
+```
+
+It does not look like Shannon diversity has a significant association with smoking status. That is, the p-value for the Shannon diversity covariate is 0.105. We can interpret the coefficient on the logit scale as, increasing Shannon diversity by 1 unit is estimated to decrease log(p/1-p) of smoking by 1.2996. Alternatively, we can interpret the coefficient on the odds scale by exponentiating the coefficient. On the odds scale, we can say that increasing the Shannon diversity changes the odds of smoking by a factor of 0.273 (95% CI: 0.050, 1.236).
+
+#### Model Diagnostic
+
+Again, after fitting the model, we must check for the following assumptions:
+
+1. Linearity - we can check the relationship between covariates and logit outcome with component-residual plots
+
+2. Independence - we will assume the data observations are independent
+
+3. Proper fitting distribution - we can check this with a scatterplot of model DEVIANCE residuals vs. linear predictor
+
+4. No multicollinearity - we can check this with variance inflation factors
+
+```{r, message=FALSE, warning=FALSE}
+# checking assumptions
+# 1. linearity assumption with component+residual plots
+crPlot(log_mod, variable="Shannon")
+crPlot(log_mod, variable="Age")
+
+# 3. proper fitting distribution (look for no pattern/constant variance)
+plot(residuals(log_mod)~predict(log_mod)) # notice it looks weird because we only have 2 response options
+binnedplot(predict(log_mod), residuals(log_mod))
+
+# 4. no multicollinearity
+vif(log_mod) # a bit concerning - could be too high of a correlation
+```
+
+#### Visualization
+
+```{r, message=FALSE, warning=FALSE}
+# first we need smoking status to be numeric
+throat_data$SmokingStatusNumeric <- ifelse(throat_data$SmokingStatus=="Smoker",1,0)
+# create a ggplot object with the data points
+
+p <- ggplot(throat_data, aes(x = Shannon, y = SmokingStatusNumeric)) +
+  geom_point(alpha = 0.5) +  # Plot the actual data points
+  stat_smooth(method = "glm", method.args = list(family = binomial), se = FALSE, color = "blue") +
+  labs(title = "Logistic Regression Curve",
+       x = "Shannon Diversity",
+       y = "Probability of Smoking")
+
+# display the plot
+p
+```
+
+### Binomial Regression
+
+Suppose researchers are interested in the number of surviving trout eggs in boxes across different locations at different weeks after placement. In particular, the outcome of interest is the number of trout eggs alive in the box/the total number of trout eggs in the box.
+
+#### Loading the Data
+
+We will use the troutegg data from faraway for this analysis.
+
+```{r, message=FALSE, warning=FALSE}
+# first, let's load in the data
+data(troutegg) # from faraway
+
+# view description of the data
+?troutegg
+
+# view data
+head(troutegg)
+str(troutegg)
+```
+
+#### Fitting the binomial regression
+
+We will fit the binomial regression using the glm function and setting family="binomial". However, we have to tell R how many successes we have in our outcome and how many failures.
+
+```{r, message=FALSE, warning=FALSE}
+# fit binomial
+binom_mod <- glm(cbind(survive,total-survive)~location+period, data=troutegg, family="binomial")
+summary(binom_mod)
+```
+
+#### Model diagnostics
+
+Again, after fitting the model, we must check for the following assumptions:
+
+1. Linearity - we do not have any continuous or numeric variables
+
+2. Independence - we will assume the data observations are independent
+
+3. Proper fitting distribution - we can check this with a scatterplot of model DEVIANCE residuals vs. linear predictor
+
+4. No multicollinearity - we can check this with variance inflation factors
+
+```{r, message=FALSE, warning=FALSE}
+# checking assumptions
+# 3. proper fitting distribution (look for no pattern/constant variance)
+plot(residuals(binom_mod)~predict(binom_mod)) 
+
+# 4. No multicollinearity
+vif(binom_mod) 
+```
+
+#### Addressing Overdispersion in Binomial
+
+The binomial model assumes that the variance is related to the our outcome, p, as p(1-p). If the variance is greater than what is assumed by the model, it is called 'overdispersion'. We can estimate overdispersion as deviance/df residuals. If this ratio is greater than 1 we have overdispersion, if it is (roughly) 1 we have no overdispersion, and if it is less than 1, we have underdispersion.
+
+If we have overdispersion of the binomial, we can try to fit a quasibinomial model instead which will estimate the dispersion parameter instead of assuming it to be 1.
+
+```{r, message=FALSE, warning=FALSE}
+# estimating the dispersion
+binom_mod$deviance/binom_mod$df.residual
+
+# if it is large, we can use 'quasibinomial' as the family instead to account for this
+binom_mod2 <- glm(cbind(survive,total-survive)~location+period, data=troutegg, family="quasibinomial")
+summary(binom_mod2)
+```
+
+### Poisson Regression
+
+#### Loading the Data
+
+We will use the faramea.csv data.
+
+```{r, message=FALSE, warning=FALSE}
+# read in the dataset
+faramea <- read.csv('module3_faramea.csv')
+
+# look at first 6 rows
+head(faramea)
+
+# look at structure
+str(faramea)
+
+# look at summary of variables
+summary(faramea)
+
+# convert age to numeric (helps with crPlots)
+faramea$Age <- as.numeric(faramea$Age)
+```
+
+#### Fitting the Poisson Regression
+
+Again, we will be using the glm() function here to fit our Poisson regression model and this time, we will set family="poisson".
+
+```{r, message=FALSE, warning=FALSE}
+# fitting the Poisson model
+glm.poisson = glm(Faramea.occidentalis ~ Elevation+Age+Precipitation,
+                  data = faramea,
+                  family = poisson)
+summary(glm.poisson)
+```
+
+#### Model Diagnostic
+
+Again, after fitting the model, we must check for the following assumptions:
+
+1. Linearity - use component-residual plots to assess
+
+2. Independence - we will assume the data observations are independent
+
+3. Proper fitting distribution- we can check this with a scatterplot of model DEVIANCE residuals vs. linear predictor
+
+4. No multicollinearity - we can check this with variance inflation factors
+
+```{r, message=FALSE, warning=FALSE}
+# check assumptions
+# 1. linearity
+crPlot(glm.poisson, variable="Elevation")
+crPlot(glm.poisson, variable="Age")
+crPlot(glm.poisson, variable="Precipitation")
+
+# 3. proper fitting distribution
+plot(resid(glm.poisson)~predict(glm.poisson)) # fan pattern - likely due to the overdispersion
+
+# 4. no multicollinearity
+vif(glm.poisson)
+```
+
+#### Addressing Overdispersion in Poisson
+
+The Poisson model assumes that the variance is equal to the mean (i.e., E(Y) = VAR(Y)). If the variance is greater than what is assumed by the model, it is called 'overdispersion'. We can estimate overdispersion as deviance/df residuals. If this ratio is greater than 1 we have overdispersion, if it is (roughly) 1 we have equidispersion, and if it is less than 1, we have underdispersion.
+
+If we have overdispersion of the Poisson, we can try to fit a quasipoisson model instead which will estimate the dispersion parameter instead of assuming it to be 1.
+
+```{r, message=FALSE, warning=FALSE}
+# estimate dispersion
+glm.poisson$deviance/glm.poisson$df.residual
+
+# fit quasi-poisson to address overdispersion
+glm.qpoisson = glm(Faramea.occidentalis ~ Elevation+Age+Precipitation,
+                  data = faramea,
+                  family = quasipoisson)
+summary(glm.qpoisson)
+```
+
+#### Modelin Rates with Poisson
+
+When modeling count data, there are scenarios where the counts observed may vary due to differences in the length of observation periods, the area covered, or the number of trials conducted. In such cases, it's important to account for the differing observation levels using an offset in Poisson models.
+
+**While the Poisson model can seem similar to the binomial distribution, particularly when dealing with rates of "successes", there is a key distinction to keep in mind. The Poisson model is generally preferred when the count of successes is unbounded—that is, there is no theoretical limit to the number of successes we might observe based on the denominator. However, if the probability of success is extremely low, so much so that the numerator (the count of successes) would never be expected to approach the denominator, the Poisson model remains appropriate. In contrast, the binomial distribution is typically used when there is a fixed upper limit on the number of successes (and the denominator is this upper limit).
+
+We will briefly review an example here where we have a rate instead of a count outcome. In this example, we will look at the dicentric dataset from faraway. The outcome of interest is the number of chromosomal abnormalities and the predictor of interest is the dose amount and dose rate. However, we also want to account for the number of cells observed as we would expect to see more abnormalities if we observed more cells. We will treat number of cells as our offset variable.
+
+```{r, message=FALSE, warning=FALSE}
+# load in the data
+data(dicentric)
+
+# view description of the data
+?dicentric
+
+# now let's look at the model without accounting for # of cells
+dicentric$dose_fac <- as.factor(dicentric$doseamt)
+mod_pois <- glm(ca ~ log(doserate)+dose_fac, data=dicentric, family=poisson)
+summary(mod_pois) # clearly overdispersed - we are not properly accounting for the variability
+
+# include log(cells) as covariate
+mod_pois <- glm(ca ~ log(cells)+log(doserate)+dose_fac, data=dicentric, family=poisson) 
+summary(mod_pois) # close to 1, can fix at 1 and treat as offset
+
+# include log(cells) as offset
+mod_pois <- glm(ca ~ offset(log(cells))+log(doserate)+dose_fac, data=dicentric, family=poisson)
+summary(mod_pois)
+```
+
+We see that including the offset is important as it can explain a lot of the overdispersion in the model outcome. It is important to note that the GLMs reviewed here are not exhaustive and there are many scenarios you will encounter when these will not work for your data. However, this module is to provide you with the tools necessary to think critically about your data and model assumptions.
+
+If your outcome data is highly overdispersed, it might be better to use more complex models to account for this such as the negative binomial (see below) or the zero-inflated Poisson if you have a large number of zero's in your outcome.
+
+### Negative Binomial
+
+We will very briefly review negative binomial as it is important for overdispersed count data that often occurs in gene expression data and taxonomic compositions.
+
+#### Load the Data
+
+The data we are looking at is from a simulated experiment based on RNA-Seq data for differential expression. The first 6 columns are the gene expression of different genes and we have covariates for age, treatment, gender, sex. We additionally want to account for total number of reads as an offset.
+
+```{r, message=FALSE, warning=FALSE}
+# load in dataset rnaseq
+data(rnaseq)
+
+# description of dataset
+?rnaseq
+
+# view first 6 rows of dataset
+head(rnaseq)
+```
+
+#### Fitting the Negative Binomial Regression
+
+First, we will fit a Poisson regression to show how overdispersed gene expression data can be and how a negative binomial is more accommodating of this kind of data. We can fit this model with glm.nb() which will estimate the extra parameter, theta for us.
+
+```{r, message=FALSE, warning=FALSE}
+# treat X1 as outcome and fit poisson
+mod_pois <- glm(X1~offset(log(totalReads))+treatment+gender+age, data=rnaseq, family=poisson)
+summary(mod_pois)
+
+# dispersion?
+sum_pois <- summary(mod_pois)
+sum_pois$deviance/sum_pois$df.residual
+
+# fit negative binomial
+mod_nb <- glm.nb(X1~offset(log(totalReads))+treatment+gender+age, data=rnaseq)
+summary(mod_nb)
+```
+
+#### Bonus: Beta Regression
+
+Beta regression is useful for modeling outcomes bounded between 0 and 1, such as proportions. However, it should be used when the denominator of the proportion is unknown. If the denominator is known, binomial regression is more appropriate.
+
+Additionally, beta regression cannot handle outcomes exactly equal to 0 or 1; all values must fall strictly between these bounds.
+
+For this example, we will look at whether there exists an association between DNA methylation at a specific CpG site and gender, age, and smoking status.
+
+#### Load the Data
+
+The dataset we will use is titled 'smoker_Epigenetic_df.csv' in our folder.
+
+```{r, message=FALSE, warning=FALSE}
+# first, let's load in the data
+smok_dat <- read.csv('module3_Smoker_Epigenetic_df.csv') # smoker_epigenetic_Df
+
+# view data
+head(smok_dat)
+
+# look at structure
+str(smok_dat)
+
+# look at summary
+summary(smok_dat) # some missingness in our outcome, we will not impute
+# look closer at gender and smoking status
+table(smok_dat$Gender)
+table(smok_dat$Smoking.Status)
+
+# clean gender
+smok_dat_c <- smok_dat %>% mutate(Gender=case_when(Gender==" f"~"F",
+                                                   Gender==" F"~"F",
+                                                   Gender==" m"~"M",
+                                                   Gender==" M"~"M")) 
+table(smok_dat_c$Gender)
+```
+
+#### Fitting Beta Regression
+
+To fit beta regression, we need to use the gam() function from the mgcv package in R. We set family=betar() in this function.
+
+```{r, message=FALSE, warning=FALSE}
+# look at effect of smoking status, gender, and age on methylation
+modb <- gam(cg00455876~Smoking.Status+Gender+Age, data=smok_dat_c, family=betar())
+summary(modb)
+
+# check assumptions with gam.check
+gam.check(modb)
+```
+
+The mgcv package has a useful function, gam.check, that allows us to check all of our usual model assumptions. In the QQ plot, we want the dots to follow roughly along the diagonal line if we assumed the correct distribution (beta) for our data. In the residual vs fitted plot, we are looking for a random scattering of points as usual.
+
+### Independent Work
+
+#### Exercise 1 - Baboon Diet and Social Group Size
+
+The baboongut dataset from the microbiomeDataSets contains data on baboons over a 14 year span to look at heritability of the gut microbiome within social groups. Let's load in this dataset and take a closer look. First, we will filter the data to only keep the first observation for each baboon to make the data cross-sectional as opposed to longitudinal.
+
+```{r, message=FALSE, warning=FALSE}
+# load in dataset 
+ts <- baboongut()
+sample_data <- colData(ts) # colData gives us the metadata we need
+
+# look at description
+?baboongut
+
+# we will only look at first sample per ID (so it is not longitudinal)
+baboon_first <- sample_data[isUnique(sample_data$baboon_id), ]
+dim(baboon_first)
+
+# we will only focus on the diet variables
+baboon_first_c <- baboon_first %>%
+  as.data.frame(.) %>%
+                  dplyr::select(group_size, contains("diet_PC"))
+
+dim(baboon_first_c)
+```
+
+Now, do the following:
+
+1. Create a new dataset called 'baboon_first_c' that only has 'group_size' and the first 7 "diet_PC' columns. These are the variables you would get had you done a principal component analysis on diet variables to reduce the dimensionality of your data. We will be using these principal components as our new predictors.
+
+```{r, message=FALSE, warning=FALSE}
+# we can use select from tidyverse to do this
+baboon_first_c <- baboon_first %>%
+  as.data.frame(.) %>%
+                  dplyr::select(group_size, diet_PC1:diet_PC7)
+
+dim(baboon_first_c)
+```
+
+2. Fit a linear regression model with the lm() function with group_size as the outcome and the principal components of diet variables (diet_PC) as your predictors.
+
+```{r, message=FALSE, warning=FALSE}
+# fit model 
+mod1 <- lm(group_size~., baboon_first_c)
+summary(mod1)
+```
+
+3. Check the model assumptions of this linear regression model. What violations can you find? Hint: think about all assumptions, not just those that we can test/visualize.
+
+Can you think of how you would try to fix these violations?
+
+```{r, message=FALSE, warning=FALSE}
+# multicollinearity?
+vif(mod1)
+# linearity?
+pairs(baboon_first_c)
+# normality?
+qqPlot(mod1)
+# constant variance?
+plot(resid(mod1)~predict(mod1))
+```
+
+The key violation here would likely be that we do not have independent observations as those within the same social group are more likely to be similar to one another in how they eat (and in this case, will have the same outcome). Other potential violations would be that there seems to be a bit of increasing variance in model residuals which could be because our outcome is a discrete count and Poisson might be more appropriate.
+
+#### Exercise 2 - Healthcare demand in U.S.A
+
+For this example we will look at the demand of healthcare in the U.S.A based on certain risk factors such as age, sex, income, etc. We will first load in the dataset, 'healthcare_demand_nmes1988.csv' from our folder.
+
+```{r, message=FALSE, warning=FALSE}
+# 1. Load in the dataset.
+health <- read.csv('module3_healthcare_demand_nmes1988.csv') # Healthcare demand dataset
+
+# 2. view data
+str(health)
+head(health)
+
+# fix income (notice that some incomes are negative, we will set those to 0)
+health$income[health$income<0] <- 0
+```
+
+1. Choose an appropriate regression model if visits is our outcome and our predictors are health, chronic, adl, income, gender, age, insurance, medicaid. Additionally include an interaction term between income and gender. Fit this model to the data.
+
+```{r, message=FALSE, warning=FALSE}
+# we will choose a Poisson regression given that the outcome is a discrete count
+glm_mod <- glm(visits~health+chronic+adl+income*gender+age+insurance+medicaid, family="poisson", data=health)
+summary(glm_mod)
+```
+
+2. Interpret the interaction term between income and gender
+
+Income has a larger association with nummber of visits for males such that males with higher income are likely to have more visits while income does not have an effect on visits for females.
+
+3. Check model assumptions (also look for overdispersion if appropriate for the model you chose) - note that you cannot use crPlot since we included an interaction so we can assume the linearity assumption is met for now.
+
+```{r, message=FALSE, warning=FALSE}
+# constant variance of deviance residuals?
+plot(resid(glm_mod)~predict(glm_mod)) 
+
+# overdispersed?
+glm_summary <- summary(glm_mod)
+glm_summary$deviance/glm_summary$df.residual # overdispersed
+``` 
+
+4. Fix any model violations you may have noticed.
+
+```{r, message=FALSE, warning=FALSE}
+# we will log transform income (need to add 0.1 since we cannot take log of 0)
+health$income_log  <- log(health$income+0.1)
+# Fitting quasipoisson to account for overdisperion
+glm_mod1 <- glm(visits~health+chronic+adl+income_log*gender+age+insurance+medicaid, family="quasipoisson", data=health)
+summary(glm_mod1)
+```
+
+#### Advanced exercise - Multivariate count data
+
+```{r, message=FALSE, warning=FALSE}
+# we will log transform income (need to add 0.1 since we cannot take log of 0)
+health$income_log  <- log(health$income+0.1)
+# Fitting quasipoisson to account for overdisperion
+glm_mod1 <- glm(visits~health+chronic+adl+income_log*gender+age+insurance+medicaid, family="quasipoisson", data=health)
+summary(glm_mod1)
+```
+
+#### Advanced exercise - Multivariate count data
+
+Often in gene expression data or compositional data, we have multiple counts. The package MGLM in R offers functions to fit multivariate count models such as the multinomial model and more advanced models to handle overdispersion of these counts.
+
+Let's look again at the rna seq dataset we used for the negative binomial example.
+
+```{r, message=FALSE, warning=FALSE}
+# load the dataset
+data(rnaseq)
+
+# look at description of the dataset
+?rnaseq
+
+# look at first 6 rows
+head(rnaseq)
+
+# look at summary of variables
+summary(rnaseq)
+```
+
+1. Look up the function MGLMreg to learn about it. What distributions can you fit with this function?
+
+Multinomial (dist="MN"), Dirichlet-multinomial (dist="DM"), generalized Dirichlet-multinomial (dist="GDM"), and negative multinomial (dist="NM").
+
+2. Let's fit a multinomial regression to the 6 gene expression columns with gender, age, and treatment as our covariates. We will include log(totalreads) as well.
+
+```{r, message=FALSE, warning=FALSE}
+# the multinomial outcome model would assume NO overdispersion:
+mnreg <- MGLMreg(formula = cbind(X1, X2, X3, X4, X5, X6) ~ log(totalReads) +
+                                 treatment + age + gender, data = rnaseq, dist = "MN") 
+
+print(mnreg)
+```
+
+Each row of the coefficient matrix in this output corresponds to our covariates (intercept, log(totalReads), treatment, age, gender) and each column corresponds to our outcomes (X1,...,X6). For example, the coefficient in the first row and first column (4.943) estimates the intercept of X1 which gives the log of baseline expression levels. The second row/first column coefficient (-0.113) gives the estimated association between log(totalReads) and gene expression of X1.
+
+3. Given that this dataset is overdispersed, it is likely that we will need to use a different distribution to accommodate this. Choose one of the distributions available other than "MN"
+
+```{r, message=FALSE, warning=FALSE}
+# we can change "MN" in the previous code to "DM" to fit a Dirichlet-multinomial regression
+dmreg <- MGLMreg(formula = cbind(X1, X2, X3, X4, X5, X6) ~ log(totalReads) +
+                   treatment + age + gender, data = rnaseq, dist = "DM") 
+print(dmreg)
+```
+
+If we wanted to know which model provided a better fit, we could compare their information criterion. For instance, the Bayesian Information Criterion (BIC) is designed to balance model complexity and model fit. A lower BIC indicates a better fitting model. Let's compare the BIC of our two models fit using the BIC() function in R. Which model fits better for this data?
+
+```{r, message=FALSE, warning=FALSE}
+BIC(dmreg)
+BIC(mnreg)
+```
+
